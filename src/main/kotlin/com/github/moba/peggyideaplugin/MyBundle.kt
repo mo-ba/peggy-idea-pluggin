@@ -1,4 +1,4 @@
-package com.github.moba.peggyideapluggin
+package com.github.moba.peggyideaplugin
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

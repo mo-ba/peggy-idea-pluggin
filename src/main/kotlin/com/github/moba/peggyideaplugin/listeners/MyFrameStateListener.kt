@@ -1,4 +1,4 @@
-package com.github.moba.peggyideapluggin.listeners
+package com.github.moba.peggyideaplugin.listeners
 
 import com.intellij.ide.FrameStateListener
 import com.intellij.openapi.diagnostic.thisLogger

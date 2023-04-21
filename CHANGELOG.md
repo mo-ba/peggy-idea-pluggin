@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# peggy-idea-pluggin Changelog
+# peggy-idea-plugin Changelog
 
 ## [Unreleased]
 ### Added

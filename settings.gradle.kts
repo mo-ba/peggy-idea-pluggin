@@ -1,1 +1,1 @@
-rootProject.name = "peggy-idea-pluggin"
+rootProject.name = "peggy-idea-plugin"
