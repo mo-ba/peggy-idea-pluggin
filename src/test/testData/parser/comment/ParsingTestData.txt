@@ -1,0 +1,7 @@
+Peggy File(0,25)
+  PeggyGrammarImpl(GRAMMAR)(0,25)
+    PeggyRuleImpl(RULE)(0,8)
+      PsiElement(PeggyTokenType.COMMENT)('// hello')(0,8)
+    PsiWhiteSpace('\n')(8,9)
+    PeggyRuleImpl(RULE)(9,25)
+      PsiElement(PeggyTokenType.COMMENT)('/*\ncomment\n// */')(9,25)

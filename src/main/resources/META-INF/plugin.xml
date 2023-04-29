@@ -17,6 +17,15 @@
                 language="Peggy"
                 extensions="peggy;peggyjs;pegjs;peg.js;peggy.js"/>
 
+        <lang.parserDefinition
+                language="Peggy"
+                implementationClass="com.github.moba.peggyideaplugin.language.PeggyParserDefinition"/>
+
+
+        <lang.syntaxHighlighterFactory
+                language="Peggy"
+                implementationClass="com.github.moba.peggyideaplugin.language.PeggySyntaxHighlighterFactory"/>
+
     </extensions>
 
 </idea-plugin>

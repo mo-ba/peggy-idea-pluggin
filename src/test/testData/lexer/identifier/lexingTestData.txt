@@ -1,0 +1,3 @@
+PeggyTokenType.IDENTIFIER_NAME ('hello')
+WHITE_SPACE (' ')
+PeggyTokenType.IDENTIFIER_NAME ('world')

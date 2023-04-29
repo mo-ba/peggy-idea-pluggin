@@ -1,0 +1,1 @@
+PeggyTokenType.COMMENT ('/*\nhello\n*/')

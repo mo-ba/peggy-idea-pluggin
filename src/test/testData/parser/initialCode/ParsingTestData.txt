@@ -1,0 +1,9 @@
+Peggy File(0,19)
+  PeggyGrammarImpl(GRAMMAR)(0,19)
+    <empty list>
+  PsiElement(PeggyTokenType.LEFT_BRACE)('{')(0,1)
+  PsiErrorElement:PeggyTokenType.CODE_BODY, PeggyTokenType.LEFT_BRACE, '{' or '}' expected(1,2)
+    PsiElement(BAD_CHARACTER)('\n')(1,2)
+  PsiElement(PeggyTokenType.CODE_BODY)('  const x = 4.5')(2,17)
+  PsiElement(BAD_CHARACTER)('\n')(17,18)
+  PsiElement(BAD_CHARACTER)('}')(18,19)

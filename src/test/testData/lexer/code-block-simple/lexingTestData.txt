@@ -1,0 +1,5 @@
+PeggyTokenType.LEFT_BRACE ('{')
+PeggyTokenType.CODE_BODY ('return identifier')
+PeggyTokenType.RIGHT_BRACE ('}')
+WHITE_SPACE (' ')
+PeggyTokenType.IDENTIFIER_NAME ('identifier')

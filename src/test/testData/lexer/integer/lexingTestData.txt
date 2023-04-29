@@ -1,0 +1,3 @@
+PeggyTokenType.INTEGER ('2342')
+WHITE_SPACE (' ')
+PeggyTokenType.INTEGER ('1235')

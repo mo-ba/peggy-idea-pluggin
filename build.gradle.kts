@@ -97,7 +97,7 @@ tasks {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
 
-            with (it.lines()) {
+            with(it.lines()) {
                 if (!containsAll(listOf(start, end))) {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }
@@ -140,6 +140,46 @@ tasks {
         // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+        channels =
+            properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+    }
+
+
+    generateLexer {
+        // source flex file
+        sourceFile.set(File("src/main/kotlin/com/github/moba/peggyideaplugin/language/grammar/Peggy.flex"))
+
+        // target directory for lexer
+        targetDir.set("src/main/gen/com/github/moba/peggyideaplugin/language/")
+
+        // target classname, target file will be targetDir/targetClass.java
+        targetClass.set("PeggyLexer")
+
+        // optional, path to the task-specific skeleton file. Default: none
+        skeleton.set(File("src/main/kotlin/com/github/moba/peggyideaplugin/language/grammar/lexer.skeleton"))
+
+        // if set, plugin will remove a lexer output file before generating new one. Default: false
+        purgeOldFiles.set(true)
+
+    }
+
+
+
+
+    generateParser {
+        // source bnf file
+        sourceFile.set(File("src/main/kotlin/com/github/moba/peggyideaplugin/language/grammar/Peggy.bnf"))
+
+        // optional, task-specific root for the generated files. Default: none
+        targetRoot.set("src/main/gen/")
+
+        // path to a parser file, relative to the targetRoot
+        pathToParser.set("com/github/moba/peggyideaplugin/language/parser/PeggyParser.java")
+
+        // path to a directory with generated psi files, relative to the targetRoot
+        pathToPsiRoot.set("com/github/moba/peggyideaplugin/language/psi")
+
+        // if set, the plugin will remove a parser output file and psi output directory before generating new ones. Default: false
+        purgeOldFiles.set(true)
     }
 }

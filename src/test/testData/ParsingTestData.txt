@@ -1,0 +1,4 @@
+// hallo
+{{init}} /*
+comment
+// */ id

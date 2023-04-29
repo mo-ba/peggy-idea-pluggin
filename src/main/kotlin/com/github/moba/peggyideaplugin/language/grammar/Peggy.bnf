@@ -1,0 +1,36 @@
+{
+  parserClass="com.github.moba.peggyideaplugin.language.parser.PeggyParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Peggy"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.moba.peggyideaplugin.language.psi"
+  psiImplPackage="com.github.moba.peggyideaplugin.language.psi.impl"
+
+  elementTypeHolderClass="com.github.moba.peggyideaplugin.language.psi.PeggyTypes"
+  elementTypeClass="com.github.moba.peggyideaplugin.language.psi.PeggyElementType"
+  tokenTypeClass="com.github.moba.peggyideaplugin.language.psi.PeggyTokenType"
+
+}
+
+peggyFile ::= Grammar
+
+Grammar ::= TopLevelInitializer? Initializer? Rule*
+
+
+TopLevelInitializer
+  ::= "{" CodeBlock "}"
+
+Initializer
+  ::= CodeBlock EOS
+
+CodeBlock ::= "{" BareCodeBlock "}"
+BareCodeBlock ::= Code
+Code ::= ((!(LEFT_BRACE|RIGHT_BRACE) CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
+//CodeBody ::= SOURCE_CHARACTER | IDENTIFIER_NAME | INTEGER
+
+Rule ::= (INTEGER|IDENTIFIER_NAME|COMMENT|WHITE_SPACE|OPERATORS|PARENTHESIS)
+OPERATORS ::= (OP_EQ|OP_COLON|OP_CHOICE|OP_OPTIONAL|OP_STAR|OP_PLUS|OP_NOT|OP_PLUCK)
+PARENTHESIS ::= (LEFT_PAREN|RIGHT_PAREN)
+
