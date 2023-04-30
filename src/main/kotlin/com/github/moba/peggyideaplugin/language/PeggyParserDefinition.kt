@@ -1,6 +1,7 @@
 package com.github.moba.peggyideaplugin.language
 
 
+import com.github.moba.peggyideaplugin.language.lexer.PeggyLexerAdapter
 import com.github.moba.peggyideaplugin.language.parser.PeggyParser
 import com.github.moba.peggyideaplugin.language.psi.PeggyFile
 import com.github.moba.peggyideaplugin.language.psi.PeggyTokenSets
@@ -23,7 +24,7 @@ class PeggyParserDefinition : ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        return TokenSet.EMPTY
+        return PeggyTokenSets.COMMENT
     }
 
     override fun getStringLiteralElements(): TokenSet {

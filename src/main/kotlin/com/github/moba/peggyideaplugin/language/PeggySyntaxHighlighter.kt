@@ -1,5 +1,6 @@
 package com.github.moba.peggyideaplugin.language
 
+import com.github.moba.peggyideaplugin.language.lexer.PeggyLexerAdapter
 import com.github.moba.peggyideaplugin.language.psi.PeggyTypes
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as DefaultColors
@@ -17,6 +18,7 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         return when (tokenType) {
+            PeggyTypes.STRING -> STRING_KEYS
             PeggyTypes.COMMENT -> COMMENT_KEYS
             PeggyTypes.INTEGER -> INTEGER_KEYS
             PeggyTypes.IDENTIFIER_NAME -> IDENTIFIER_NAME_KEYS
@@ -26,12 +28,14 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     companion object {
+        val STRING =
+            TextAttributesKey.createTextAttributesKey("PEGGY_STRING", DefaultColors.STRING)
         val COMMENT =
             TextAttributesKey.createTextAttributesKey("PEGGY_COMMENT", DefaultColors.LINE_COMMENT)
         val INTEGER =
             TextAttributesKey.createTextAttributesKey("PEGGY_INTEGER", DefaultColors.NUMBER)
         val IDENTIFIER_NAME =
-            TextAttributesKey.createTextAttributesKey("PEGGY_IDENTIFIER_NAME", DefaultColors.IDENTIFIER)
+            TextAttributesKey.createTextAttributesKey("PEGGY_IDENTIFIER_NAME", DefaultColors.KEYWORD)
         val BAD_CHARACTER =
             TextAttributesKey.createTextAttributesKey("PEGGY_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
 
@@ -39,6 +43,7 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
         private val INTEGER_KEYS = arrayOf(INTEGER)
         private val IDENTIFIER_NAME_KEYS = arrayOf(IDENTIFIER_NAME)
         private val COMMENT_KEYS = arrayOf(COMMENT)
+        private val STRING_KEYS = arrayOf(STRING)
         private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
     }
 }

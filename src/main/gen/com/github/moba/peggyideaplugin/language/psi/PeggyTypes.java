@@ -8,40 +8,69 @@ import com.github.moba.peggyideaplugin.language.psi.impl.*;
 
 public interface PeggyTypes {
 
-  IElementType BARE_CODE_BLOCK = new PeggyElementType("BARE_CODE_BLOCK");
+  IElementType BOUNDARIES = new PeggyElementType("BOUNDARIES");
+  IElementType BOUNDARY = new PeggyElementType("BOUNDARY");
+  IElementType BRACE = new PeggyElementType("BRACE");
+  IElementType CATCH = new PeggyElementType("CATCH");
   IElementType CODE = new PeggyElementType("CODE");
   IElementType CODE_BLOCK = new PeggyElementType("CODE_BLOCK");
+  IElementType EXPRESSION = new PeggyElementType("EXPRESSION");
   IElementType GRAMMAR = new PeggyElementType("GRAMMAR");
   IElementType INITIALIZER = new PeggyElementType("INITIALIZER");
-  IElementType OPERATORS = new PeggyElementType("OPERATORS");
+  IElementType LABEL_COLON = new PeggyElementType("LABEL_COLON");
+  IElementType LABEL_IDENTIFIER = new PeggyElementType("LABEL_IDENTIFIER");
+  IElementType LITERAL_MATCHER = new PeggyElementType("LITERAL_MATCHER");
+  IElementType OPERATOR = new PeggyElementType("OPERATOR");
   IElementType PARENTHESIS = new PeggyElementType("PARENTHESIS");
+  IElementType PLUCK = new PeggyElementType("PLUCK");
+  IElementType PREFIXED_OPERATOR = new PeggyElementType("PREFIXED_OPERATOR");
+  IElementType REPEATED_EXPRESSION = new PeggyElementType("REPEATED_EXPRESSION");
   IElementType RULE = new PeggyElementType("RULE");
+  IElementType RULE_DEFINITION = new PeggyElementType("RULE_DEFINITION");
+  IElementType RULE_REFERENCE_EXPRESSION = new PeggyElementType("RULE_REFERENCE_EXPRESSION");
+  IElementType SEMANTIC_PREDICATE_EXPRESSION = new PeggyElementType("SEMANTIC_PREDICATE_EXPRESSION");
+  IElementType SEMANTIC_PREDICATE_OPERATOR = new PeggyElementType("SEMANTIC_PREDICATE_OPERATOR");
+  IElementType SUFFIXED_OPERATOR = new PeggyElementType("SUFFIXED_OPERATOR");
   IElementType TOP_LEVEL_INITIALIZER = new PeggyElementType("TOP_LEVEL_INITIALIZER");
 
   IElementType CODE_BODY = new PeggyTokenType("CODE_BODY");
   IElementType COMMENT = new PeggyTokenType("COMMENT");
-  IElementType EOS = new PeggyTokenType("EOS");
   IElementType IDENTIFIER_NAME = new PeggyTokenType("IDENTIFIER_NAME");
   IElementType INTEGER = new PeggyTokenType("INTEGER");
   IElementType LEFT_BRACE = new PeggyTokenType("LEFT_BRACE");
   IElementType LEFT_PAREN = new PeggyTokenType("LEFT_PAREN");
+  IElementType OP_AND = new PeggyTokenType("OP_AND");
   IElementType OP_CHOICE = new PeggyTokenType("OP_CHOICE");
   IElementType OP_COLON = new PeggyTokenType("OP_COLON");
+  IElementType OP_COMMA = new PeggyTokenType("OP_COMMA");
+  IElementType OP_DOLLAR = new PeggyTokenType("OP_DOLLAR");
   IElementType OP_EQ = new PeggyTokenType("OP_EQ");
   IElementType OP_NOT = new PeggyTokenType("OP_NOT");
   IElementType OP_OPTIONAL = new PeggyTokenType("OP_OPTIONAL");
+  IElementType OP_OR = new PeggyTokenType("OP_OR");
   IElementType OP_PLUCK = new PeggyTokenType("OP_PLUCK");
   IElementType OP_PLUS = new PeggyTokenType("OP_PLUS");
+  IElementType OP_RANGE = new PeggyTokenType("OP_RANGE");
   IElementType OP_STAR = new PeggyTokenType("OP_STAR");
   IElementType RIGHT_BRACE = new PeggyTokenType("RIGHT_BRACE");
   IElementType RIGHT_PAREN = new PeggyTokenType("RIGHT_PAREN");
+  IElementType STRING = new PeggyTokenType("STRING");
   IElementType WHITE_SPACE = new PeggyTokenType("WHITE_SPACE");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == BARE_CODE_BLOCK) {
-        return new PeggyBareCodeBlockImpl(node);
+      if (type == BOUNDARIES) {
+        return new PeggyBoundariesImpl(node);
+      }
+      else if (type == BOUNDARY) {
+        return new PeggyBoundaryImpl(node);
+      }
+      else if (type == BRACE) {
+        return new PeggyBraceImpl(node);
+      }
+      else if (type == CATCH) {
+        return new PeggyCatchImpl(node);
       }
       else if (type == CODE) {
         return new PeggyCodeImpl(node);
@@ -49,20 +78,56 @@ public interface PeggyTypes {
       else if (type == CODE_BLOCK) {
         return new PeggyCodeBlockImpl(node);
       }
+      else if (type == EXPRESSION) {
+        return new PeggyExpressionImpl(node);
+      }
       else if (type == GRAMMAR) {
         return new PeggyGrammarImpl(node);
       }
       else if (type == INITIALIZER) {
         return new PeggyInitializerImpl(node);
       }
-      else if (type == OPERATORS) {
-        return new PeggyOperatorsImpl(node);
+      else if (type == LABEL_COLON) {
+        return new PeggyLabelColonImpl(node);
+      }
+      else if (type == LABEL_IDENTIFIER) {
+        return new PeggyLabelIdentifierImpl(node);
+      }
+      else if (type == LITERAL_MATCHER) {
+        return new PeggyLiteralMatcherImpl(node);
+      }
+      else if (type == OPERATOR) {
+        return new PeggyOperatorImpl(node);
       }
       else if (type == PARENTHESIS) {
         return new PeggyParenthesisImpl(node);
       }
+      else if (type == PLUCK) {
+        return new PeggyPluckImpl(node);
+      }
+      else if (type == PREFIXED_OPERATOR) {
+        return new PeggyPrefixedOperatorImpl(node);
+      }
+      else if (type == REPEATED_EXPRESSION) {
+        return new PeggyRepeatedExpressionImpl(node);
+      }
       else if (type == RULE) {
         return new PeggyRuleImpl(node);
+      }
+      else if (type == RULE_DEFINITION) {
+        return new PeggyRuleDefinitionImpl(node);
+      }
+      else if (type == RULE_REFERENCE_EXPRESSION) {
+        return new PeggyRuleReferenceExpressionImpl(node);
+      }
+      else if (type == SEMANTIC_PREDICATE_EXPRESSION) {
+        return new PeggySemanticPredicateExpressionImpl(node);
+      }
+      else if (type == SEMANTIC_PREDICATE_OPERATOR) {
+        return new PeggySemanticPredicateOperatorImpl(node);
+      }
+      else if (type == SUFFIXED_OPERATOR) {
+        return new PeggySuffixedOperatorImpl(node);
       }
       else if (type == TOP_LEVEL_INITIALIZER) {
         return new PeggyTopLevelInitializerImpl(node);

@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface PeggyRule extends PsiElement {
 
-  @Nullable
-  PeggyOperators getOperators();
+  @NotNull
+  PeggyExpression getExpression();
 
-  @Nullable
-  PeggyParenthesis getParenthesis();
+  @NotNull
+  PeggyRuleDefinition getRuleDefinition();
 
 }

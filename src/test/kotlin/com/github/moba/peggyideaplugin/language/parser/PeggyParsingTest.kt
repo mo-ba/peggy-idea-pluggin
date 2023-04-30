@@ -29,4 +29,6 @@ abstract class CommonParsingTestCase(path: String) : ParsingTestCase(path, "pegg
 }
 
 class CommentParsingTest : CommonParsingTestCase("comment") {}
-//class InitialCodeParsingTest : CommonParsingTestCase("initialCode") {}
+class TopLevelInitializerParsingTest : CommonParsingTestCase("topLevelInitializer") {}
+class InitializerParsingTest : CommonParsingTestCase("initializer") {}
+class SimpleRuleParsingTest : CommonParsingTestCase("rule-simple") {}

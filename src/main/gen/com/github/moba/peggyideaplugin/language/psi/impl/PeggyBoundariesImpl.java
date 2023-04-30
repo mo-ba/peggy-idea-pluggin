@@ -11,14 +11,14 @@ import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCodeBlock {
+public class PeggyBoundariesImpl extends ASTWrapperPsiElement implements PeggyBoundaries {
 
-  public PeggyCodeBlockImpl(@NotNull ASTNode node) {
+  public PeggyBoundariesImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PeggyVisitor visitor) {
-    visitor.visitCodeBlock(this);
+    visitor.visitBoundaries(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCod
 
   @Override
   @NotNull
-  public PeggyCode getCode() {
-    return findNotNullChildByClass(PeggyCode.class);
+  public List<PeggyBoundary> getBoundaryList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyBoundary.class);
   }
 
 }

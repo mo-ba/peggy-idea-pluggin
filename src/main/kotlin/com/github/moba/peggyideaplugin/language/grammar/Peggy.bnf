@@ -16,21 +16,67 @@
 
 peggyFile ::= Grammar
 
-Grammar ::= TopLevelInitializer? Initializer? Rule*
+Grammar ::= X__ (TopLevelInitializer X__)?  (Initializer X__)? X__ Rule* X__ <<eof>>
+
+TopLevelInitializer  ::= LEFT_BRACE CodeBlock RIGHT_BRACE
+Initializer  ::= CodeBlock
+CodeBlock ::= "{" Code "}"
+Code ::= ((!Brace CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
+
+Rule ::= RuleDefinition X__ OP_EQ X__ Expression
+RuleDefinition ::=  IDENTIFIER_NAME  {name="FOO"}
+Expression ::=  ChoiceExpression X__
+private ChoiceExpression ::= ActionExpression (X__ OP_OR ActionExpression)* X__
+private ActionExpression ::= SequenceExpression (X__ CodeBlock)?
+private SequenceExpression ::= LabeledExpression (X__ LabeledExpression)*
+
+private LabeledExpression // todo simplify
+    ::= (Pluck LabelColon PrefixedExpression)
+    | (LabelColon PrefixedExpression)
+    | (PrefixedExpression)
+
+LabelColon ::= LabelIdentifier X__ OP_COLON
+LabelIdentifier ::= IDENTIFIER_NAME
 
 
-TopLevelInitializer
-  ::= "{" CodeBlock "}"
+private PrefixedExpression
+    ::= (PrefixedOperator X__ SuffixedExpression)
+    | SuffixedExpression
 
-Initializer
-  ::= CodeBlock EOS
+private SuffixedExpression
+    ::= (PrimaryExpression X__ SuffixedOperator)
+    | RepeatedExpression
+    | PrimaryExpression
 
-CodeBlock ::= "{" BareCodeBlock "}"
-BareCodeBlock ::= Code
-Code ::= ((!(LEFT_BRACE|RIGHT_BRACE) CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
-//CodeBody ::= SOURCE_CHARACTER | IDENTIFIER_NAME | INTEGER
+RepeatedExpression ::= PrimaryExpression X__ OP_OR X__ Boundaries X__ (OP_COMMA X__ Expression)
+Boundaries ::= Boundary? X__ OP_RANGE X__ Boundary?
+Boundary ::= INTEGER | IDENTIFIER_NAME | CodeBlock
 
-Rule ::= (INTEGER|IDENTIFIER_NAME|COMMENT|WHITE_SPACE|OPERATORS|PARENTHESIS)
-OPERATORS ::= (OP_EQ|OP_COLON|OP_CHOICE|OP_OPTIONAL|OP_STAR|OP_PLUS|OP_NOT|OP_PLUCK)
+private PrimaryExpression ::=
+LiteralMatcher
+//| CharacterClassMatcher //todo
+//| AnyMatcher //todo
+| RuleReferenceExpression
+| SemanticPredicateExpression
+| LEFT_PAREN X__ Expression X__ RIGHT_PAREN
+
+RuleReferenceExpression ::= IDENTIFIER_NAME !(X__ (STRING X__)? OP_EQ)
+SemanticPredicateExpression ::= SemanticPredicateOperator X__ CodeBlock
+
+LiteralMatcher ::= STRING "i"? //todo i
+
+SemanticPredicateOperator ::= OP_AND | OP_NOT
+
+PrefixedOperator ::= OP_DOLLAR | OP_AND | OP_NOT //todo
+SuffixedOperator ::= OP_PLUS | OP_STAR | OP_OPTIONAL
+private X__ ::= (COMMENT | WHITE_SPACE)* //todo
+
+Pluck ::= OP_PLUCK
+Brace ::= (LEFT_BRACE|RIGHT_BRACE)
+
+
+// todo remove catches
+Catch ::= (INTEGER|IDENTIFIER_NAME|COMMENT|WHITE_SPACE|STRING|OPERATOR|PARENTHESIS)
+OPERATOR ::= (OP_EQ|OP_COLON|OP_CHOICE|OP_OPTIONAL|OP_STAR|OP_PLUS|OP_NOT|OP_PLUCK|OP_RANGE)
 PARENTHESIS ::= (LEFT_PAREN|RIGHT_PAREN)
 

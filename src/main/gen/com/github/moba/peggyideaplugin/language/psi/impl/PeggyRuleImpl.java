@@ -28,15 +28,15 @@ public class PeggyRuleImpl extends ASTWrapperPsiElement implements PeggyRule {
   }
 
   @Override
-  @Nullable
-  public PeggyOperators getOperators() {
-    return findChildByClass(PeggyOperators.class);
+  @NotNull
+  public PeggyExpression getExpression() {
+    return findNotNullChildByClass(PeggyExpression.class);
   }
 
   @Override
-  @Nullable
-  public PeggyParenthesis getParenthesis() {
-    return findChildByClass(PeggyParenthesis.class);
+  @NotNull
+  public PeggyRuleDefinition getRuleDefinition() {
+    return findNotNullChildByClass(PeggyRuleDefinition.class);
   }
 
 }

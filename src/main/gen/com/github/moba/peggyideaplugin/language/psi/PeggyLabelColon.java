@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface PeggyBareCodeBlock extends PsiElement {
+public interface PeggyLabelColon extends PsiElement {
 
   @NotNull
-  PeggyCode getCode();
+  PeggyLabelIdentifier getLabelIdentifier();
 
 }

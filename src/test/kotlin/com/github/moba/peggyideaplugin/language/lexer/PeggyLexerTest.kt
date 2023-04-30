@@ -1,4 +1,4 @@
-package com.github.moba.peggyideaplugin.language
+package com.github.moba.peggyideaplugin.language.lexer
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.util.io.FileUtil
@@ -47,3 +47,5 @@ class WhitespaceLexerTest: PeggyLexerTest("whitespace")
 class MultiLineCommentLexerTest: PeggyLexerTest("comment-multi-line")
 class CodeBlockLexerTest: PeggyLexerTest("code-block")
 class SimpleCodeBlockLexerTest: PeggyLexerTest("code-block-simple")
+class DoubleStringLexerTest: PeggyLexerTest("double-string")
+class SingleStringLexerTest: PeggyLexerTest("single-string")

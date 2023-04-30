@@ -11,14 +11,14 @@ import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCodeBlock {
+public class PeggySemanticPredicateExpressionImpl extends ASTWrapperPsiElement implements PeggySemanticPredicateExpression {
 
-  public PeggyCodeBlockImpl(@NotNull ASTNode node) {
+  public PeggySemanticPredicateExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PeggyVisitor visitor) {
-    visitor.visitCodeBlock(this);
+    visitor.visitSemanticPredicateExpression(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCod
 
   @Override
   @NotNull
-  public PeggyCode getCode() {
-    return findNotNullChildByClass(PeggyCode.class);
+  public PeggyCodeBlock getCodeBlock() {
+    return findNotNullChildByClass(PeggyCodeBlock.class);
+  }
+
+  @Override
+  @NotNull
+  public PeggySemanticPredicateOperator getSemanticPredicateOperator() {
+    return findNotNullChildByClass(PeggySemanticPredicateOperator.class);
   }
 
 }

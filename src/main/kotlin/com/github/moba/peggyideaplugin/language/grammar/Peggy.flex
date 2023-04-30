@@ -1,5 +1,5 @@
 // Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package com.github.moba.peggyideaplugin.language;
+package com.github.moba.peggyideaplugin.language.lexer;
 
 import com.intellij.psi.tree.IElementType;
 import com.github.moba.peggyideaplugin.language.psi.PeggyTypes;
@@ -19,9 +19,10 @@ import com.intellij.lexer.FlexLexer;
 %eof}
 
 
-%state CODE
+%state CODE DOUBLE_STRING SINGLE_STRING
 %{
- int braceCount = 0;
+    StringBuffer string = new StringBuffer();
+    int braceCount = 0;
 %}
 
 SourceCharacter
@@ -134,18 +135,38 @@ HexDigit
     "(" {braceCount++;yybegin(CODE); return PeggyTypes.LEFT_PAREN; }
     ")" {braceCount++;yybegin(CODE); return PeggyTypes.RIGHT_PAREN; }
 
+    ".." {braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE; }
     "=" {yybegin(YYINITIAL); return PeggyTypes.OP_EQ; }
     ":" {yybegin(YYINITIAL); return PeggyTypes.OP_COLON; }
     "/" {yybegin(YYINITIAL); return PeggyTypes.OP_CHOICE; }
+    "|" {yybegin(YYINITIAL); return PeggyTypes.OP_OR; }
+    "&" {yybegin(YYINITIAL); return PeggyTypes.OP_AND; }
+    "$" {yybegin(YYINITIAL); return PeggyTypes.OP_DOLLAR; }
     "?" {yybegin(YYINITIAL); return PeggyTypes.OP_OPTIONAL; }
+    "," {yybegin(YYINITIAL); return PeggyTypes.OP_COMMA; }
     "*" {yybegin(YYINITIAL); return PeggyTypes.OP_STAR; }
     "+" {yybegin(YYINITIAL); return PeggyTypes.OP_PLUS; }
     "!" {yybegin(YYINITIAL); return PeggyTypes.OP_NOT; }
     "@" {yybegin(YYINITIAL); return PeggyTypes.OP_PLUCK; }
 
+    \"  { string.setLength(0); yybegin(DOUBLE_STRING); }
+    \'  { string.setLength(0); yybegin(SINGLE_STRING); }
+
 
     [^] { return TokenType.BAD_CHARACTER; }
 
+}
+<DOUBLE_STRING> {
+    \"             { yybegin(YYINITIAL);return PeggyTypes.STRING; }
+    [^\"\\]+   { string.append( yytext() ); }
+    \\\"           { string.append('\"'); }
+    \\             { string.append('\\'); }
+}
+<SINGLE_STRING> {
+    \'             { yybegin(YYINITIAL);return PeggyTypes.STRING; }
+    [^\'\\]+   { string.append( yytext() ); }
+    \\\'           { string.append('\"'); }
+    \\             { string.append('\\'); }
 }
 <CODE> {
 

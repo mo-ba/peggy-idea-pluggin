@@ -149,8 +149,9 @@ tasks {
         // source flex file
         sourceFile.set(File("src/main/kotlin/com/github/moba/peggyideaplugin/language/grammar/Peggy.flex"))
 
+
         // target directory for lexer
-        targetDir.set("src/main/gen/com/github/moba/peggyideaplugin/language/")
+        targetDir.set("src/main/gen/com/github/moba/peggyideaplugin/language/lexer")
 
         // target classname, target file will be targetDir/targetClass.java
         targetClass.set("PeggyLexer")
