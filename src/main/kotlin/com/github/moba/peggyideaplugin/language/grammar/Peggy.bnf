@@ -31,10 +31,7 @@ ActionExpression ::= SequenceExpression (Skip CodeBlock)?
 private SequenceExpression ::= LabeledExpression (Skip LabeledExpression)*
 
 private LabeledExpression // todo simplify
-     ::= Pluck LabelColon PrefixedExpression
-     | LabelColon PrefixedExpression
-     | PrefixedExpression
-
+     ::= Pluck? LabelColon? PrefixedExpression
 
 private PrefixedExpression ::= (PrefixedOperator Skip SuffixedExpression) | SuffixedExpression
 private SuffixedExpression ::= (PrimaryExpression Skip SuffixedOperator) | RepeatedExpression | PrimaryExpression

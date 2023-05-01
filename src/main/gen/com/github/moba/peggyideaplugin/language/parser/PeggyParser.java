@@ -363,41 +363,30 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Pluck LabelColon PrefixedExpression
-  //      | LabelColon PrefixedExpression
-  //      | PrefixedExpression
+  // Pluck? LabelColon? PrefixedExpression
   static boolean LabeledExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "LabeledExpression")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = LabeledExpression_0(builder_, level_ + 1);
-    if (!result_) result_ = LabeledExpression_1(builder_, level_ + 1);
-    if (!result_) result_ = PrefixedExpression(builder_, level_ + 1);
+    result_ = result_ && LabeledExpression_1(builder_, level_ + 1);
+    result_ = result_ && PrefixedExpression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // Pluck LabelColon PrefixedExpression
+  // Pluck?
   private static boolean LabeledExpression_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "LabeledExpression_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Pluck(builder_, level_ + 1);
-    result_ = result_ && LabelColon(builder_, level_ + 1);
-    result_ = result_ && PrefixedExpression(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
+    Pluck(builder_, level_ + 1);
+    return true;
   }
 
-  // LabelColon PrefixedExpression
+  // LabelColon?
   private static boolean LabeledExpression_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "LabeledExpression_1")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = LabelColon(builder_, level_ + 1);
-    result_ = result_ && PrefixedExpression(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
+    LabelColon(builder_, level_ + 1);
+    return true;
   }
 
   /* ********************************************************** */

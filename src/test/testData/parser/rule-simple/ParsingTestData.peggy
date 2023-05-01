@@ -1,1 +1,1 @@
-fuzz  = "bar" / baz / (buzz)
+fuzz="str"/id/(brac)/!not/@pluck
