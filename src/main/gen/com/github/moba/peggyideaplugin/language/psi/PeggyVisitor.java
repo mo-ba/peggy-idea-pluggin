@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class PeggyVisitor extends PsiElementVisitor {
 
+  public void visitActionExpression(@NotNull PeggyActionExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitBoundaries(@NotNull PeggyBoundaries o) {
     visitPsiElement(o);
   }
@@ -16,10 +20,6 @@ public class PeggyVisitor extends PsiElementVisitor {
   }
 
   public void visitBrace(@NotNull PeggyBrace o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCatch(@NotNull PeggyCatch o) {
     visitPsiElement(o);
   }
 
@@ -55,23 +55,11 @@ public class PeggyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitOperator(@NotNull PeggyOperator o) {
-    visitPsiElement(o);
-  }
-
-  public void visitParenthesis(@NotNull PeggyParenthesis o) {
-    visitPsiElement(o);
-  }
-
   public void visitPluck(@NotNull PeggyPluck o) {
     visitPsiElement(o);
   }
 
   public void visitPrefixedOperator(@NotNull PeggyPrefixedOperator o) {
-    visitPsiElement(o);
-  }
-
-  public void visitRepeatedExpression(@NotNull PeggyRepeatedExpression o) {
     visitPsiElement(o);
   }
 

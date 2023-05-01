@@ -1,9 +1,9 @@
 package com.github.moba.peggyideaplugin.services
 
+import com.github.moba.peggyideaplugin.MyBundle
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.moba.peggyideaplugin.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

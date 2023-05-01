@@ -132,8 +132,7 @@ HexDigit
     {Integer} { yybegin(YYINITIAL); return PeggyTypes.INTEGER; }
 
     "{" {braceCount++;yybegin(CODE); return PeggyTypes.LEFT_BRACE; }
-    "(" {braceCount++;yybegin(CODE); return PeggyTypes.LEFT_PAREN; }
-    ")" {braceCount++;yybegin(CODE); return PeggyTypes.RIGHT_PAREN; }
+
 
     ".." {braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE; }
     "=" {yybegin(YYINITIAL); return PeggyTypes.OP_EQ; }
@@ -148,6 +147,8 @@ HexDigit
     "+" {yybegin(YYINITIAL); return PeggyTypes.OP_PLUS; }
     "!" {yybegin(YYINITIAL); return PeggyTypes.OP_NOT; }
     "@" {yybegin(YYINITIAL); return PeggyTypes.OP_PLUCK; }
+    "(" {yybegin(YYINITIAL); return PeggyTypes.LEFT_PAREN; }
+    ")" {yybegin(YYINITIAL); return PeggyTypes.RIGHT_PAREN; }
 
     \"  { string.setLength(0); yybegin(DOUBLE_STRING); }
     \'  { string.setLength(0); yybegin(SINGLE_STRING); }

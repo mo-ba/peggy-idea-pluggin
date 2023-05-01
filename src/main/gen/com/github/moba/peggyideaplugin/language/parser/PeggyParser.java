@@ -36,45 +36,45 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SequenceExpression (X__ CodeBlock)?
-  static boolean ActionExpression(PsiBuilder builder_, int level_) {
+  // SequenceExpression (Skip CodeBlock)?
+  public static boolean ActionExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ActionExpression")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, ACTION_EXPRESSION, "<action expression>");
     result_ = SequenceExpression(builder_, level_ + 1);
     result_ = result_ && ActionExpression_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
+    exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
-  // (X__ CodeBlock)?
+  // (Skip CodeBlock)?
   private static boolean ActionExpression_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ActionExpression_1")) return false;
     ActionExpression_1_0(builder_, level_ + 1);
     return true;
   }
 
-  // X__ CodeBlock
+  // Skip CodeBlock
   private static boolean ActionExpression_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ActionExpression_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = X__(builder_, level_ + 1);
+    result_ = Skip(builder_, level_ + 1);
     result_ = result_ && CodeBlock(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // Boundary? X__ OP_RANGE X__ Boundary?
+  // Boundary? Skip OP_RANGE Skip Boundary?
   public static boolean Boundaries(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Boundaries")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, BOUNDARIES, "<boundaries>");
     result_ = Boundaries_0(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_RANGE);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Boundaries_4(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
@@ -121,36 +121,19 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER|IDENTIFIER_NAME|COMMENT|WHITE_SPACE|STRING|OPERATOR|PARENTHESIS
-  public static boolean Catch(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Catch")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, CATCH, "<catch>");
-    result_ = consumeToken(builder_, INTEGER);
-    if (!result_) result_ = consumeToken(builder_, IDENTIFIER_NAME);
-    if (!result_) result_ = consumeToken(builder_, COMMENT);
-    if (!result_) result_ = consumeToken(builder_, WHITE_SPACE);
-    if (!result_) result_ = consumeToken(builder_, STRING);
-    if (!result_) result_ = OPERATOR(builder_, level_ + 1);
-    if (!result_) result_ = PARENTHESIS(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // ActionExpression (X__ OP_OR ActionExpression)* X__
+  // ActionExpression (Skip OP_CHOICE ActionExpression)* Skip
   static boolean ChoiceExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ChoiceExpression")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = ActionExpression(builder_, level_ + 1);
     result_ = result_ && ChoiceExpression_1(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // (X__ OP_OR ActionExpression)*
+  // (Skip OP_CHOICE ActionExpression)*
   private static boolean ChoiceExpression_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ChoiceExpression_1")) return false;
     while (true) {
@@ -161,13 +144,13 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // X__ OP_OR ActionExpression
+  // Skip OP_CHOICE ActionExpression
   private static boolean ChoiceExpression_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ChoiceExpression_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = X__(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, OP_OR);
+    result_ = Skip(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, OP_CHOICE);
     result_ = result_ && ActionExpression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
@@ -260,79 +243,86 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ChoiceExpression X__
+  // ChoiceExpression
   public static boolean Expression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Expression")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _COLLAPSE_, EXPRESSION, "<expression>");
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, EXPRESSION, "<expression>");
     result_ = ChoiceExpression(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
   /* ********************************************************** */
-  // X__ (TopLevelInitializer X__)?  (Initializer X__)? X__ Rule* X__ <<eof>>
+  // Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
   public static boolean Grammar(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Grammar")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, GRAMMAR, "<grammar>");
-    result_ = X__(builder_, level_ + 1);
+    result_ = Skip(builder_, level_ + 1);
     result_ = result_ && Grammar_1(builder_, level_ + 1);
     result_ = result_ && Grammar_2(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
-    result_ = result_ && Grammar_4(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
-    result_ = result_ && eof(builder_, level_ + 1);
+    result_ = result_ && Grammar_3(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
-  // (TopLevelInitializer X__)?
+  // (TopLevelInitializer Skip)?
   private static boolean Grammar_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Grammar_1")) return false;
     Grammar_1_0(builder_, level_ + 1);
     return true;
   }
 
-  // TopLevelInitializer X__
+  // TopLevelInitializer Skip
   private static boolean Grammar_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Grammar_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = TopLevelInitializer(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // (Initializer X__)?
+  // (Initializer Skip)?
   private static boolean Grammar_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Grammar_2")) return false;
     Grammar_2_0(builder_, level_ + 1);
     return true;
   }
 
-  // Initializer X__
+  // Initializer Skip
   private static boolean Grammar_2_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Grammar_2_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = Initializer(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // Rule*
-  private static boolean Grammar_4(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_4")) return false;
+  // (Rule Skip)*
+  private static boolean Grammar_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Grammar_3")) return false;
     while (true) {
       int pos_ = current_position_(builder_);
-      if (!Rule(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "Grammar_4", pos_)) break;
+      if (!Grammar_3_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "Grammar_3", pos_)) break;
     }
     return true;
+  }
+
+  // Rule Skip
+  private static boolean Grammar_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Grammar_3_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = Rule(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
   }
 
   /* ********************************************************** */
@@ -347,14 +337,14 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LabelIdentifier X__ OP_COLON
+  // LabelIdentifier Skip OP_COLON
   public static boolean LabelColon(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "LabelColon")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER_NAME)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = LabelIdentifier(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_COLON);
     exit_section_(builder_, marker_, LABEL_COLON, result_);
     return result_;
@@ -373,16 +363,16 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (Pluck LabelColon PrefixedExpression)
-  //     | (LabelColon PrefixedExpression)
-  //     | (PrefixedExpression)
+  // Pluck LabelColon PrefixedExpression
+  //      | LabelColon PrefixedExpression
+  //      | PrefixedExpression
   static boolean LabeledExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "LabeledExpression")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = LabeledExpression_0(builder_, level_ + 1);
     if (!result_) result_ = LabeledExpression_1(builder_, level_ + 1);
-    if (!result_) result_ = LabeledExpression_2(builder_, level_ + 1);
+    if (!result_) result_ = PrefixedExpression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
@@ -410,16 +400,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (PrefixedExpression)
-  private static boolean LabeledExpression_2(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "LabeledExpression_2")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = PrefixedExpression(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
   /* ********************************************************** */
   // STRING "i"?
   public static boolean LiteralMatcher(PsiBuilder builder_, int level_) {
@@ -441,38 +421,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OP_EQ|OP_COLON|OP_CHOICE|OP_OPTIONAL|OP_STAR|OP_PLUS|OP_NOT|OP_PLUCK|OP_RANGE
-  public static boolean OPERATOR(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "OPERATOR")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, OPERATOR, "<operator>");
-    result_ = consumeToken(builder_, OP_EQ);
-    if (!result_) result_ = consumeToken(builder_, OP_COLON);
-    if (!result_) result_ = consumeToken(builder_, OP_CHOICE);
-    if (!result_) result_ = consumeToken(builder_, OP_OPTIONAL);
-    if (!result_) result_ = consumeToken(builder_, OP_STAR);
-    if (!result_) result_ = consumeToken(builder_, OP_PLUS);
-    if (!result_) result_ = consumeToken(builder_, OP_NOT);
-    if (!result_) result_ = consumeToken(builder_, OP_PLUCK);
-    if (!result_) result_ = consumeToken(builder_, OP_RANGE);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // LEFT_PAREN|RIGHT_PAREN
-  public static boolean PARENTHESIS(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PARENTHESIS")) return false;
-    if (!nextTokenIs(builder_, "<parenthesis>", LEFT_PAREN, RIGHT_PAREN)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, PARENTHESIS, "<parenthesis>");
-    result_ = consumeToken(builder_, LEFT_PAREN);
-    if (!result_) result_ = consumeToken(builder_, RIGHT_PAREN);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  /* ********************************************************** */
   // OP_PLUCK
   public static boolean Pluck(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Pluck")) return false;
@@ -485,8 +433,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (PrefixedOperator X__ SuffixedExpression)
-  //     | SuffixedExpression
+  // (PrefixedOperator Skip SuffixedExpression) | SuffixedExpression
   static boolean PrefixedExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "PrefixedExpression")) return false;
     boolean result_;
@@ -497,13 +444,13 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // PrefixedOperator X__ SuffixedExpression
+  // PrefixedOperator Skip SuffixedExpression
   private static boolean PrefixedExpression_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "PrefixedExpression_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = PrefixedOperator(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && SuffixedExpression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
@@ -523,78 +470,76 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LiteralMatcher
-  // //| CharacterClassMatcher //todo
-  // //| AnyMatcher //todo
-  // | RuleReferenceExpression
-  // | SemanticPredicateExpression
-  // | LEFT_PAREN X__ Expression X__ RIGHT_PAREN
+  // LEFT_PAREN Skip Expression Skip RIGHT_PAREN
+  //     | LiteralMatcher
+  //     | RuleReferenceExpression
+  //     | SemanticPredicateExpression
   static boolean PrimaryExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "PrimaryExpression")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = LiteralMatcher(builder_, level_ + 1);
+    result_ = PrimaryExpression_0(builder_, level_ + 1);
+    if (!result_) result_ = LiteralMatcher(builder_, level_ + 1);
     if (!result_) result_ = RuleReferenceExpression(builder_, level_ + 1);
     if (!result_) result_ = SemanticPredicateExpression(builder_, level_ + 1);
-    if (!result_) result_ = PrimaryExpression_3(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // LEFT_PAREN X__ Expression X__ RIGHT_PAREN
-  private static boolean PrimaryExpression_3(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PrimaryExpression_3")) return false;
+  // LEFT_PAREN Skip Expression Skip RIGHT_PAREN
+  private static boolean PrimaryExpression_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PrimaryExpression_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, LEFT_PAREN);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Expression(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, RIGHT_PAREN);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // PrimaryExpression X__ OP_OR X__ Boundaries X__ (OP_COMMA X__ Expression)
-  public static boolean RepeatedExpression(PsiBuilder builder_, int level_) {
+  // PrimaryExpression Skip OP_OR Skip Boundaries Skip (OP_COMMA Skip Expression)
+  static boolean RepeatedExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RepeatedExpression")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, REPEATED_EXPRESSION, "<repeated expression>");
+    Marker marker_ = enter_section_(builder_);
     result_ = PrimaryExpression(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_OR);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Boundaries(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && RepeatedExpression_6(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
+    exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // OP_COMMA X__ Expression
+  // OP_COMMA Skip Expression
   private static boolean RepeatedExpression_6(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RepeatedExpression_6")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, OP_COMMA);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Expression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // RuleDefinition X__ OP_EQ X__ Expression
+  // RuleDefinition Skip OP_EQ Skip Expression
   public static boolean Rule(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Rule")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER_NAME)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = RuleDefinition(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_EQ);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Expression(builder_, level_ + 1);
     exit_section_(builder_, marker_, RULE, result_);
     return result_;
@@ -604,16 +549,16 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   // IDENTIFIER_NAME
   public static boolean RuleDefinition(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleDefinition")) return false;
-    if (!nextTokenIs(builder_, "<FOO>", IDENTIFIER_NAME)) return false;
+    if (!nextTokenIs(builder_, IDENTIFIER_NAME)) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, RULE_DEFINITION, "<FOO>");
+    Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, IDENTIFIER_NAME);
-    exit_section_(builder_, level_, marker_, result_, false, null);
+    exit_section_(builder_, marker_, RULE_DEFINITION, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // IDENTIFIER_NAME !(X__ (STRING X__)? OP_EQ)
+  // IDENTIFIER_NAME !(Skip (STRING Skip)? OP_EQ)
   public static boolean RuleReferenceExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleReferenceExpression")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER_NAME)) return false;
@@ -625,7 +570,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // !(X__ (STRING X__)? OP_EQ)
+  // !(Skip (STRING Skip)? OP_EQ)
   private static boolean RuleReferenceExpression_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleReferenceExpression_1")) return false;
     boolean result_;
@@ -635,45 +580,45 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // X__ (STRING X__)? OP_EQ
+  // Skip (STRING Skip)? OP_EQ
   private static boolean RuleReferenceExpression_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleReferenceExpression_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = X__(builder_, level_ + 1);
+    result_ = Skip(builder_, level_ + 1);
     result_ = result_ && RuleReferenceExpression_1_0_1(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_EQ);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // (STRING X__)?
+  // (STRING Skip)?
   private static boolean RuleReferenceExpression_1_0_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleReferenceExpression_1_0_1")) return false;
     RuleReferenceExpression_1_0_1_0(builder_, level_ + 1);
     return true;
   }
 
-  // STRING X__
+  // STRING Skip
   private static boolean RuleReferenceExpression_1_0_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "RuleReferenceExpression_1_0_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, STRING);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // SemanticPredicateOperator X__ CodeBlock
+  // SemanticPredicateOperator Skip CodeBlock
   public static boolean SemanticPredicateExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SemanticPredicateExpression")) return false;
     if (!nextTokenIs(builder_, "<semantic predicate expression>", OP_AND, OP_NOT)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, SEMANTIC_PREDICATE_EXPRESSION, "<semantic predicate expression>");
     result_ = SemanticPredicateOperator(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && CodeBlock(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
@@ -693,7 +638,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LabeledExpression (X__ LabeledExpression)*
+  // LabeledExpression (Skip LabeledExpression)*
   static boolean SequenceExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SequenceExpression")) return false;
     boolean result_;
@@ -704,7 +649,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (X__ LabeledExpression)*
+  // (Skip LabeledExpression)*
   private static boolean SequenceExpression_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SequenceExpression_1")) return false;
     while (true) {
@@ -715,21 +660,40 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // X__ LabeledExpression
+  // Skip LabeledExpression
   private static boolean SequenceExpression_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SequenceExpression_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = X__(builder_, level_ + 1);
+    result_ = Skip(builder_, level_ + 1);
     result_ = result_ && LabeledExpression(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // (PrimaryExpression X__ SuffixedOperator)
-  //     | RepeatedExpression
-  //     | PrimaryExpression
+  // (COMMENT | WHITE_SPACE)*
+  static boolean Skip(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Skip")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!Skip_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "Skip", pos_)) break;
+    }
+    return true;
+  }
+
+  // COMMENT | WHITE_SPACE
+  private static boolean Skip_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Skip_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, COMMENT);
+    if (!result_) result_ = consumeToken(builder_, WHITE_SPACE);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // (PrimaryExpression Skip SuffixedOperator) | RepeatedExpression | PrimaryExpression
   static boolean SuffixedExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SuffixedExpression")) return false;
     boolean result_;
@@ -741,13 +705,13 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // PrimaryExpression X__ SuffixedOperator
+  // PrimaryExpression Skip SuffixedOperator
   private static boolean SuffixedExpression_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SuffixedExpression_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = PrimaryExpression(builder_, level_ + 1);
-    result_ = result_ && X__(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && SuffixedOperator(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
@@ -777,27 +741,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     result_ = result_ && CodeBlock(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, RIGHT_BRACE);
     exit_section_(builder_, marker_, TOP_LEVEL_INITIALIZER, result_);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // (COMMENT | WHITE_SPACE)*
-  static boolean X__(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "X__")) return false;
-    while (true) {
-      int pos_ = current_position_(builder_);
-      if (!X___0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "X__", pos_)) break;
-    }
-    return true;
-  }
-
-  // COMMENT | WHITE_SPACE
-  private static boolean X___0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "X___0")) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, COMMENT);
-    if (!result_) result_ = consumeToken(builder_, WHITE_SPACE);
     return result_;
   }
 

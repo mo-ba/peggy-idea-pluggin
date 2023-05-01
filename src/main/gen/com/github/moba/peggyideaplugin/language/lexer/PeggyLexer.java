@@ -108,10 +108,10 @@ class PeggyLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 1560 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\3\1\1\1\2\2\1\2\0\1\3\1\46\1\47\1\0\1\30\1\0\1\42\1\50\1\34\1\35\1"+
-    "\6\1\45\1\44\1\0\1\36\1\5\12\32\1\40\2\0\1\37\1\0\1\43\1\11\4\7\1\21\15\7"+
+    "\11\0\1\3\1\1\1\2\2\1\2\0\1\3\1\44\1\47\1\0\1\30\1\0\1\40\1\50\1\45\1\46\1"+
+    "\6\1\43\1\42\1\0\1\34\1\5\12\32\1\36\2\0\1\35\1\0\1\41\1\11\4\7\1\21\15\7"+
     "\1\25\1\7\1\12\5\7\1\0\1\10\2\0\1\7\1\0\1\23\1\7\1\15\1\17\1\20\3\7\1\14\4"+
-    "\7\1\13\1\16\1\24\1\26\1\7\1\22\1\7\1\27\1\4\4\7\1\33\1\41\1\51\7\0\1\2\2"+
+    "\7\1\13\1\16\1\24\1\26\1\7\1\22\1\7\1\27\1\4\4\7\1\33\1\37\1\51\7\0\1\2\2"+
     "\0\1\3\11\0\1\7\12\0\1\7\2\0\7\7\1\0\2\7\4\0\4\7\6\0\5\7\7\0\1\7\1\0\1\7\1"+
     "\0\10\31\5\7\1\0\2\7\2\0\4\7\1\0\1\7\6\0\1\7\1\0\3\7\1\0\1\7\1\0\4\7\1\0\13"+
     "\7\1\0\3\7\1\0\5\31\2\0\6\7\1\0\7\7\1\0\1\7\7\0\15\31\1\0\1\31\1\0\2\31\1"+
@@ -150,7 +150,7 @@ class PeggyLexer implements FlexLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\1\1\2\2\0\1\3\2\1\1\4\1\5\1\6"+
-    "\1\3\1\7\1\10\1\11\1\12\1\13\1\14\1\3"+
+    "\1\3\1\7\1\10\1\11\1\12\1\3\1\13\1\14"+
     "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
     "\1\25\1\26\1\2\1\27\1\30\1\31\1\32\1\33"+
     "\1\31\1\32\1\0\1\34\2\0\1\35\1\36\2\0"+
@@ -183,8 +183,8 @@ class PeggyLexer implements FlexLexer {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\52\0\124\0\176\0\250\0\322\0\374\0\u0126"+
-    "\0\250\0\u0150\0\u017a\0\250\0\250\0\u01a4\0\250\0\250"+
-    "\0\250\0\u01ce\0\250\0\250\0\250\0\250\0\250\0\250"+
+    "\0\250\0\u0150\0\u017a\0\250\0\250\0\u01a4\0\250\0\u01ce"+
+    "\0\250\0\250\0\250\0\250\0\250\0\250\0\250\0\250"+
     "\0\250\0\250\0\250\0\250\0\u01f8\0\250\0\250\0\u0222"+
     "\0\u024c\0\250\0\u0276\0\u02a0\0\u017a\0\u02ca\0\u02f4\0\u031e"+
     "\0\250\0\250\0\u0348\0\u0372\0\250\0\u039c\0\u03c6\0\u03f0"+
@@ -223,8 +223,8 @@ class PeggyLexer implements FlexLexer {
     "\37\43\1\42\1\43\53\0\1\6\1\0\2\6\46\0"+
     "\1\6\1\0\1\6\1\7\2\0\1\12\1\45\1\0"+
     "\21\12\24\0\1\46\1\47\47\0\1\12\2\0\1\12"+
-    "\1\45\1\0\21\12\30\0\1\50\72\0\1\16\55\0"+
-    "\1\51\13\0\33\35\1\0\15\35\1\0\10\40\1\0"+
+    "\1\45\1\0\21\12\30\0\1\50\72\0\1\16\53\0"+
+    "\1\51\15\0\33\35\1\0\15\35\1\0\10\40\1\0"+
     "\36\40\1\0\2\40\47\0\1\52\2\0\10\43\1\0"+
     "\37\43\1\0\1\43\50\0\1\52\1\0\1\46\2\0"+
     "\47\46\6\47\1\53\43\47\12\0\1\54\37\0\5\47"+
@@ -275,7 +275,7 @@ class PeggyLexer implements FlexLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\1\2\0\1\11\3\1\1\11\2\1\2\11\1\1"+
-    "\3\11\1\1\12\11\1\1\2\11\2\1\1\11\2\1"+
+    "\1\11\1\1\14\11\1\1\2\11\2\1\1\11\2\1"+
     "\1\0\1\1\2\0\2\11\2\0\1\11\23\0";
 
   private static int [] zzUnpackAttribute() {
@@ -701,52 +701,52 @@ class PeggyLexer implements FlexLexer {
             // fall through
           case 40: break;
           case 11: 
-            { braceCount++;yybegin(CODE); return PeggyTypes.LEFT_PAREN;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_EQ;
             } 
             // fall through
           case 41: break;
           case 12: 
-            { braceCount++;yybegin(CODE); return PeggyTypes.RIGHT_PAREN;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_COLON;
             } 
             // fall through
           case 42: break;
           case 13: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_EQ;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_OR;
             } 
             // fall through
           case 43: break;
           case 14: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_COLON;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_AND;
             } 
             // fall through
           case 44: break;
           case 15: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_OR;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_OPTIONAL;
             } 
             // fall through
           case 45: break;
           case 16: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_AND;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_COMMA;
             } 
             // fall through
           case 46: break;
           case 17: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_OPTIONAL;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_PLUS;
             } 
             // fall through
           case 47: break;
           case 18: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_COMMA;
+            { yybegin(YYINITIAL); return PeggyTypes.OP_NOT;
             } 
             // fall through
           case 48: break;
           case 19: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_PLUS;
+            { yybegin(YYINITIAL); return PeggyTypes.LEFT_PAREN;
             } 
             // fall through
           case 49: break;
           case 20: 
-            { yybegin(YYINITIAL); return PeggyTypes.OP_NOT;
+            { yybegin(YYINITIAL); return PeggyTypes.RIGHT_PAREN;
             } 
             // fall through
           case 50: break;

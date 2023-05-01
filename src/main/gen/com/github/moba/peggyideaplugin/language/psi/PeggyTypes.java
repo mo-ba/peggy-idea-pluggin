@@ -8,10 +8,10 @@ import com.github.moba.peggyideaplugin.language.psi.impl.*;
 
 public interface PeggyTypes {
 
+  IElementType ACTION_EXPRESSION = new PeggyElementType("ACTION_EXPRESSION");
   IElementType BOUNDARIES = new PeggyElementType("BOUNDARIES");
   IElementType BOUNDARY = new PeggyElementType("BOUNDARY");
   IElementType BRACE = new PeggyElementType("BRACE");
-  IElementType CATCH = new PeggyElementType("CATCH");
   IElementType CODE = new PeggyElementType("CODE");
   IElementType CODE_BLOCK = new PeggyElementType("CODE_BLOCK");
   IElementType EXPRESSION = new PeggyElementType("EXPRESSION");
@@ -20,11 +20,8 @@ public interface PeggyTypes {
   IElementType LABEL_COLON = new PeggyElementType("LABEL_COLON");
   IElementType LABEL_IDENTIFIER = new PeggyElementType("LABEL_IDENTIFIER");
   IElementType LITERAL_MATCHER = new PeggyElementType("LITERAL_MATCHER");
-  IElementType OPERATOR = new PeggyElementType("OPERATOR");
-  IElementType PARENTHESIS = new PeggyElementType("PARENTHESIS");
   IElementType PLUCK = new PeggyElementType("PLUCK");
   IElementType PREFIXED_OPERATOR = new PeggyElementType("PREFIXED_OPERATOR");
-  IElementType REPEATED_EXPRESSION = new PeggyElementType("REPEATED_EXPRESSION");
   IElementType RULE = new PeggyElementType("RULE");
   IElementType RULE_DEFINITION = new PeggyElementType("RULE_DEFINITION");
   IElementType RULE_REFERENCE_EXPRESSION = new PeggyElementType("RULE_REFERENCE_EXPRESSION");
@@ -60,7 +57,10 @@ public interface PeggyTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == BOUNDARIES) {
+      if (type == ACTION_EXPRESSION) {
+        return new PeggyActionExpressionImpl(node);
+      }
+      else if (type == BOUNDARIES) {
         return new PeggyBoundariesImpl(node);
       }
       else if (type == BOUNDARY) {
@@ -68,9 +68,6 @@ public interface PeggyTypes {
       }
       else if (type == BRACE) {
         return new PeggyBraceImpl(node);
-      }
-      else if (type == CATCH) {
-        return new PeggyCatchImpl(node);
       }
       else if (type == CODE) {
         return new PeggyCodeImpl(node);
@@ -96,20 +93,11 @@ public interface PeggyTypes {
       else if (type == LITERAL_MATCHER) {
         return new PeggyLiteralMatcherImpl(node);
       }
-      else if (type == OPERATOR) {
-        return new PeggyOperatorImpl(node);
-      }
-      else if (type == PARENTHESIS) {
-        return new PeggyParenthesisImpl(node);
-      }
       else if (type == PLUCK) {
         return new PeggyPluckImpl(node);
       }
       else if (type == PREFIXED_OPERATOR) {
         return new PeggyPrefixedOperatorImpl(node);
-      }
-      else if (type == REPEATED_EXPRESSION) {
-        return new PeggyRepeatedExpressionImpl(node);
       }
       else if (type == RULE) {
         return new PeggyRuleImpl(node);

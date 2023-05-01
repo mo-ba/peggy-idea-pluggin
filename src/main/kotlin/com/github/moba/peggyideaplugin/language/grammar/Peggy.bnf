@@ -16,67 +16,56 @@
 
 peggyFile ::= Grammar
 
-Grammar ::= X__ (TopLevelInitializer X__)?  (Initializer X__)? X__ Rule* X__ <<eof>>
+Grammar ::= Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
 
 TopLevelInitializer  ::= LEFT_BRACE CodeBlock RIGHT_BRACE
 Initializer  ::= CodeBlock
 CodeBlock ::= "{" Code "}"
 Code ::= ((!Brace CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
 
-Rule ::= RuleDefinition X__ OP_EQ X__ Expression
-RuleDefinition ::=  IDENTIFIER_NAME  {name="FOO"}
-Expression ::=  ChoiceExpression X__
-private ChoiceExpression ::= ActionExpression (X__ OP_OR ActionExpression)* X__
-private ActionExpression ::= SequenceExpression (X__ CodeBlock)?
-private SequenceExpression ::= LabeledExpression (X__ LabeledExpression)*
+Rule ::= RuleDefinition Skip OP_EQ Skip Expression
+RuleDefinition ::=  IDENTIFIER_NAME
+Expression ::=  ChoiceExpression
+private ChoiceExpression ::= ActionExpression (Skip OP_CHOICE ActionExpression)* Skip
+ActionExpression ::= SequenceExpression (Skip CodeBlock)?
+private SequenceExpression ::= LabeledExpression (Skip LabeledExpression)*
 
 private LabeledExpression // todo simplify
-    ::= (Pluck LabelColon PrefixedExpression)
-    | (LabelColon PrefixedExpression)
-    | (PrefixedExpression)
+     ::= Pluck LabelColon PrefixedExpression
+     | LabelColon PrefixedExpression
+     | PrefixedExpression
 
-LabelColon ::= LabelIdentifier X__ OP_COLON
+
+private PrefixedExpression ::= (PrefixedOperator Skip SuffixedExpression) | SuffixedExpression
+private SuffixedExpression ::= (PrimaryExpression Skip SuffixedOperator) | RepeatedExpression | PrimaryExpression
+
+LabelColon ::= LabelIdentifier Skip OP_COLON
 LabelIdentifier ::= IDENTIFIER_NAME
 
-
-private PrefixedExpression
-    ::= (PrefixedOperator X__ SuffixedExpression)
-    | SuffixedExpression
-
-private SuffixedExpression
-    ::= (PrimaryExpression X__ SuffixedOperator)
-    | RepeatedExpression
-    | PrimaryExpression
-
-RepeatedExpression ::= PrimaryExpression X__ OP_OR X__ Boundaries X__ (OP_COMMA X__ Expression)
-Boundaries ::= Boundary? X__ OP_RANGE X__ Boundary?
+private RepeatedExpression ::= PrimaryExpression Skip OP_OR Skip Boundaries Skip (OP_COMMA Skip Expression)
+Boundaries ::= Boundary? Skip OP_RANGE Skip Boundary?
 Boundary ::= INTEGER | IDENTIFIER_NAME | CodeBlock
 
-private PrimaryExpression ::=
-LiteralMatcher
 //| CharacterClassMatcher //todo
 //| AnyMatcher //todo
-| RuleReferenceExpression
-| SemanticPredicateExpression
-| LEFT_PAREN X__ Expression X__ RIGHT_PAREN
+private PrimaryExpression ::=
+    LEFT_PAREN Skip Expression Skip RIGHT_PAREN
+    | LiteralMatcher
+    | RuleReferenceExpression
+    | SemanticPredicateExpression
 
-RuleReferenceExpression ::= IDENTIFIER_NAME !(X__ (STRING X__)? OP_EQ)
-SemanticPredicateExpression ::= SemanticPredicateOperator X__ CodeBlock
+RuleReferenceExpression ::= IDENTIFIER_NAME !(Skip (STRING Skip)? OP_EQ)
+SemanticPredicateExpression ::= SemanticPredicateOperator Skip CodeBlock
 
 LiteralMatcher ::= STRING "i"? //todo i
 
 SemanticPredicateOperator ::= OP_AND | OP_NOT
 
-PrefixedOperator ::= OP_DOLLAR | OP_AND | OP_NOT //todo
+PrefixedOperator ::= OP_DOLLAR | OP_AND | OP_NOT
 SuffixedOperator ::= OP_PLUS | OP_STAR | OP_OPTIONAL
-private X__ ::= (COMMENT | WHITE_SPACE)* //todo
+private Skip ::= (COMMENT | WHITE_SPACE)* //todo
 
 Pluck ::= OP_PLUCK
 Brace ::= (LEFT_BRACE|RIGHT_BRACE)
 
-
-// todo remove catches
-Catch ::= (INTEGER|IDENTIFIER_NAME|COMMENT|WHITE_SPACE|STRING|OPERATOR|PARENTHESIS)
-OPERATOR ::= (OP_EQ|OP_COLON|OP_CHOICE|OP_OPTIONAL|OP_STAR|OP_PLUS|OP_NOT|OP_PLUCK|OP_RANGE)
-PARENTHESIS ::= (LEFT_PAREN|RIGHT_PAREN)
 

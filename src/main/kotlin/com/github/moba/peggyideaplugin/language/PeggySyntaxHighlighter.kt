@@ -3,15 +3,16 @@ package com.github.moba.peggyideaplugin.language
 import com.github.moba.peggyideaplugin.language.lexer.PeggyLexerAdapter
 import com.github.moba.peggyideaplugin.language.psi.PeggyTypes
 import com.intellij.lexer.Lexer
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as DefaultColors
 import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as DefaultColors
 
 
 class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
+
     override fun getHighlightingLexer(): Lexer {
         return PeggyLexerAdapter()
     }
@@ -30,6 +31,8 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
     companion object {
         val STRING =
             TextAttributesKey.createTextAttributesKey("PEGGY_STRING", DefaultColors.STRING)
+        val LABEL =
+            TextAttributesKey.createTextAttributesKey("PEGGY_LABEL", DefaultColors.INSTANCE_FIELD)
         val COMMENT =
             TextAttributesKey.createTextAttributesKey("PEGGY_COMMENT", DefaultColors.LINE_COMMENT)
         val INTEGER =

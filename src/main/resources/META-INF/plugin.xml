@@ -5,6 +5,8 @@
     <vendor>mo-ba</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <depends>JavaScript</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
@@ -25,7 +27,9 @@
         <lang.syntaxHighlighterFactory
                 language="Peggy"
                 implementationClass="com.github.moba.peggyideaplugin.language.PeggySyntaxHighlighterFactory"/>
-
+        <annotator
+                language="Peggy"
+                implementationClass="com.github.moba.peggyideaplugin.language.HighlightAnnotator"/>
     </extensions>
 
 </idea-plugin>

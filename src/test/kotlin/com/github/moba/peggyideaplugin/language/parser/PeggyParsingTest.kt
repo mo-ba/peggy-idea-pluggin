@@ -32,3 +32,4 @@ class CommentParsingTest : CommonParsingTestCase("comment") {}
 class TopLevelInitializerParsingTest : CommonParsingTestCase("topLevelInitializer") {}
 class InitializerParsingTest : CommonParsingTestCase("initializer") {}
 class SimpleRuleParsingTest : CommonParsingTestCase("rule-simple") {}
+class SimpleRule2ParsingTest : CommonParsingTestCase("rule-simple2") {}

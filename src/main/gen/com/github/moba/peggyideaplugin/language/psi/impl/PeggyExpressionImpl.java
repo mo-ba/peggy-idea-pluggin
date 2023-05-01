@@ -29,62 +29,8 @@ public class PeggyExpressionImpl extends ASTWrapperPsiElement implements PeggyEx
 
   @Override
   @NotNull
-  public List<PeggyCodeBlock> getCodeBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyCodeBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyLabelColon> getLabelColonList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyLabelColon.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyLiteralMatcher> getLiteralMatcherList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyLiteralMatcher.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyPluck> getPluckList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyPluck.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyPrefixedOperator> getPrefixedOperatorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyPrefixedOperator.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyRepeatedExpression> getRepeatedExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyRepeatedExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyRuleReferenceExpression> getRuleReferenceExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyRuleReferenceExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggySemanticPredicateExpression> getSemanticPredicateExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggySemanticPredicateExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggySuffixedOperator> getSuffixedOperatorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggySuffixedOperator.class);
+  public List<PeggyActionExpression> getActionExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyActionExpression.class);
   }
 
 }
