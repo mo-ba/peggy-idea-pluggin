@@ -6,8 +6,6 @@ import com.intellij.testFramework.ParsingTestCase
 
 abstract class CommonParsingTestCase(path: String) : ParsingTestCase(path, "peggy", PeggyParserDefinition()) {
 
-    internal constructor() : this("comment")
-
     fun testParsingTestData() {
         doTest(true)
     }

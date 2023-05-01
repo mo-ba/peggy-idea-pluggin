@@ -11,13 +11,13 @@ abstract class PeggyLexerTest(val path: String) : LexerTestCase() {
 //        return "lexingTestData"
 //    }
 
-    fun filePath(extension: String): String {
+    fun filePath(path: String, extension: String): String {
         return dirPath + "/" + path + "/" + getTestName(true) + extension
     }
 
     fun runTest(path: String) {
-        val expectedFilePath = filePath(".txt")
-        val sourceFilePath = filePath(".peggy")
+        val expectedFilePath = filePath(path, ".txt")
+        val sourceFilePath = filePath(path, ".peggy")
         val expected = FileUtil.loadFile(File(expectedFilePath))
         val source = FileUtil.loadFile(File(sourceFilePath))
         println(expectedFilePath)
@@ -40,14 +40,14 @@ abstract class PeggyLexerTest(val path: String) : LexerTestCase() {
 
 }
 
-class IdentifierLexerTest: PeggyLexerTest("identifier")
-class IntegerLexerTest: PeggyLexerTest("integer")
-class CommentLexerTest: PeggyLexerTest("comment")
-class WhitespaceLexerTest: PeggyLexerTest("whitespace")
-class MultiLineCommentLexerTest: PeggyLexerTest("comment-multi-line")
-class CodeBlockLexerTest: PeggyLexerTest("code-block")
-class SimpleCodeBlockLexerTest: PeggyLexerTest("code-block-simple")
-class DoubleStringLexerTest: PeggyLexerTest("double-string")
-class SingleStringLexerTest: PeggyLexerTest("single-string")
-class PrimaryExpressionLexerTest: PeggyLexerTest("expression-primary")
-class PluckLexerTest: PeggyLexerTest("pluck")
+class IdentifierLexerTest : PeggyLexerTest("identifier")
+class IntegerLexerTest : PeggyLexerTest("integer")
+class CommentLexerTest : PeggyLexerTest("comment")
+class WhitespaceLexerTest : PeggyLexerTest("whitespace")
+class MultiLineCommentLexerTest : PeggyLexerTest("comment-multi-line")
+class CodeBlockLexerTest : PeggyLexerTest("code-block")
+class SimpleCodeBlockLexerTest : PeggyLexerTest("code-block-simple")
+class DoubleStringLexerTest : PeggyLexerTest("double-string")
+class SingleStringLexerTest : PeggyLexerTest("single-string")
+class PrimaryExpressionLexerTest : PeggyLexerTest("expression-primary")
+class PluckLexerTest : PeggyLexerTest("pluck")
