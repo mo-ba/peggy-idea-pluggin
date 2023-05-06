@@ -18,7 +18,6 @@ class PeggyFileType private constructor() : LanguageFileType(PeggyLanguage) {
     }
 
     override fun getIcon(): Icon {
-        println(PeggyIcons.FILE)
         return PeggyIcons.FILE
     }
 

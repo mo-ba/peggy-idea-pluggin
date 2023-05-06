@@ -1,7 +1,1 @@
-PeggyTokenType.LEFT_BRACE ('{')
-PeggyTokenType.CODE_BODY ('\n    // hello\n    let identifier  = ')
-PeggyTokenType.LEFT_BRACE ('{')
-PeggyTokenType.CODE_BODY ('\n        value:42\n    ')
-PeggyTokenType.RIGHT_BRACE ('}')
-PeggyTokenType.CODE_BODY ('\n    return identifier\n')
-PeggyTokenType.RIGHT_BRACE ('}')
+PeggyTokenType.CODE_BODY ('{\n    // hello\n    let identifier  = {\n        value:42\n    }\n    return identifier\n}')

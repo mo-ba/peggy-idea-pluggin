@@ -1,0 +1,6 @@
+PeggyTokenType.IDENTIFIER_NAME ('a')
+PeggyTokenType.OP_EQ ('=')
+PeggyTokenType.IDENTIFIER_NAME ('b')
+WHITE_SPACE (' ')
+PeggyTokenType.CODE_BODY ('{return {a:42}}')
+WHITE_SPACE ('\n')

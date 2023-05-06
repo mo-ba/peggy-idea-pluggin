@@ -32,3 +32,4 @@ class InitializerParsingTest : CommonParsingTestCase("initializer") {}
 class SimpleRuleParsingTest : CommonParsingTestCase("rule-simple") {}
 class SimpleRule2ParsingTest : CommonParsingTestCase("rule-simple2") {}
 class PluckRuleParsingTest : CommonParsingTestCase("rule-with-pluck") {}
+class CodeBlockRuleParsingTest : CommonParsingTestCase("rule-code-block") {}

@@ -1,0 +1,3 @@
+PeggyTokenType.LEFT_BRACE ('{')
+PeggyTokenType.CODE_BODY ('{\n    // hello\n    let identifier  = {\n        value:42\n    }\n}')
+PeggyTokenType.RIGHT_BRACE ('}')

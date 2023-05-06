@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface PeggyCode extends PsiElement {
-
-  @NotNull
-  List<PeggyCode> getCodeList();
+public interface PeggyX extends PsiElement {
 
 }

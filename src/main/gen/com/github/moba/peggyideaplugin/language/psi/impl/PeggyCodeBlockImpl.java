@@ -27,10 +27,4 @@ public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCod
     else super.accept(visitor);
   }
 
-  @Override
-  @NotNull
-  public PeggyCode getCode() {
-    return findNotNullChildByClass(PeggyCode.class);
-  }
-
 }

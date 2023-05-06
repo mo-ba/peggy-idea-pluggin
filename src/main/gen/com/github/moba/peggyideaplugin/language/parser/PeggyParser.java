@@ -157,88 +157,14 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ((!Brace CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
-  public static boolean Code(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code")) return false;
-    Marker marker_ = enter_section_(builder_, level_, _COLLAPSE_, CODE, "<code>");
-    while (true) {
-      int pos_ = current_position_(builder_);
-      if (!Code_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "Code", pos_)) break;
-    }
-    exit_section_(builder_, level_, marker_, true, false, null);
-    return true;
-  }
-
-  // (!Brace CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE
-  private static boolean Code_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Code_0_0(builder_, level_ + 1);
-    if (!result_) result_ = Code_0_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // (!Brace CODE_BODY)+
-  private static boolean Code_0_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code_0_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Code_0_0_0(builder_, level_ + 1);
-    while (result_) {
-      int pos_ = current_position_(builder_);
-      if (!Code_0_0_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "Code_0_0", pos_)) break;
-    }
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // !Brace CODE_BODY
-  private static boolean Code_0_0_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code_0_0_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Code_0_0_0_0(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, CODE_BODY);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // !Brace
-  private static boolean Code_0_0_0_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code_0_0_0_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NOT_);
-    result_ = !Brace(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  // LEFT_BRACE Code RIGHT_BRACE
-  private static boolean Code_0_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Code_0_1")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, LEFT_BRACE);
-    result_ = result_ && Code(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, RIGHT_BRACE);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // "{" Code "}"
+  // CODE_BODY
   public static boolean CodeBlock(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "CodeBlock")) return false;
+    if (!nextTokenIs(builder_, CODE_BODY)) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, CODE_BLOCK, "<code block>");
-    result_ = consumeToken(builder_, "{");
-    result_ = result_ && Code(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, "}");
-    exit_section_(builder_, level_, marker_, result_, false, null);
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, CODE_BODY);
+    exit_section_(builder_, marker_, CODE_BLOCK, result_);
     return result_;
   }
 
@@ -329,10 +255,11 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   // CodeBlock
   public static boolean Initializer(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Initializer")) return false;
+    if (!nextTokenIs(builder_, CODE_BODY)) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, INITIALIZER, "<initializer>");
+    Marker marker_ = enter_section_(builder_);
     result_ = CodeBlock(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
+    exit_section_(builder_, marker_, INITIALIZER, result_);
     return result_;
   }
 
@@ -730,6 +657,18 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     result_ = result_ && CodeBlock(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, RIGHT_BRACE);
     exit_section_(builder_, marker_, TOP_LEVEL_INITIALIZER, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // INIT_CODE
+  public static boolean X(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "X")) return false;
+    if (!nextTokenIs(builder_, INIT_CODE)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, INIT_CODE);
+    exit_section_(builder_, marker_, X, result_);
     return result_;
   }
 

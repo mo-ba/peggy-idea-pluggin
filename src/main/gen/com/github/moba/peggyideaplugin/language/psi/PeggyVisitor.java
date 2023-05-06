@@ -23,10 +23,6 @@ public class PeggyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCode(@NotNull PeggyCode o) {
-    visitPsiElement(o);
-  }
-
   public void visitCodeBlock(@NotNull PeggyCodeBlock o) {
     visitPsiElement(o);
   }
@@ -88,6 +84,10 @@ public class PeggyVisitor extends PsiElementVisitor {
   }
 
   public void visitTopLevelInitializer(@NotNull PeggyTopLevelInitializer o) {
+    visitPsiElement(o);
+  }
+
+  public void visitX(@NotNull PeggyX o) {
     visitPsiElement(o);
   }
 

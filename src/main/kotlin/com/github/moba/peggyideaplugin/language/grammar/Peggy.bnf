@@ -20,8 +20,7 @@ Grammar ::= Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
 
 TopLevelInitializer  ::= LEFT_BRACE CodeBlock RIGHT_BRACE
 Initializer  ::= CodeBlock
-CodeBlock ::= "{" Code "}"
-Code ::= ((!Brace CODE_BODY)+ | LEFT_BRACE Code RIGHT_BRACE)*
+CodeBlock ::= CODE_BODY
 
 Rule ::= RuleDefinition Skip OP_EQ Skip Expression
 RuleDefinition ::=  IDENTIFIER_NAME
@@ -30,9 +29,7 @@ private ChoiceExpression ::= ActionExpression (Skip OP_CHOICE ActionExpression)*
 ActionExpression ::= SequenceExpression (Skip CodeBlock)?
 private SequenceExpression ::= LabeledExpression (Skip LabeledExpression)*
 
-private LabeledExpression // todo simplify
-     ::= Pluck? LabelColon? PrefixedExpression
-
+private LabeledExpression  ::= Pluck? LabelColon? PrefixedExpression
 private PrefixedExpression ::= (PrefixedOperator Skip SuffixedExpression) | SuffixedExpression
 private SuffixedExpression ::= (PrimaryExpression Skip SuffixedOperator) | RepeatedExpression | PrimaryExpression
 
@@ -65,4 +62,6 @@ private Skip ::= (COMMENT | WHITE_SPACE)* //todo
 Pluck ::= OP_PLUCK
 Brace ::= (LEFT_BRACE|RIGHT_BRACE)
 
+// todo catch
+X ::= INIT_CODE
 

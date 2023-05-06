@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface PeggyCodeBlock extends PsiElement {
 
-  @NotNull
-  PeggyCode getCode();
-
 }

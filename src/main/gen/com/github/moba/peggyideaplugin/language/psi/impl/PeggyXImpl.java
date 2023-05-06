@@ -11,26 +11,20 @@ import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyCodeImpl extends ASTWrapperPsiElement implements PeggyCode {
+public class PeggyXImpl extends ASTWrapperPsiElement implements PeggyX {
 
-  public PeggyCodeImpl(@NotNull ASTNode node) {
+  public PeggyXImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PeggyVisitor visitor) {
-    visitor.visitCode(this);
+    visitor.visitX(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof PeggyVisitor) accept((PeggyVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<PeggyCode> getCodeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyCode.class);
   }
 
 }

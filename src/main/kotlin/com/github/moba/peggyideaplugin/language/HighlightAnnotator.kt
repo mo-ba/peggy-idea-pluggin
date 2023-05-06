@@ -6,11 +6,10 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.intellij.psi.util.elementType
 
 
 class HighlightAnnotator : Annotator {
-    val highlighter: PeggySyntaxHighlighter = PeggySyntaxHighlighter()
+    private val highlighter: PeggySyntaxHighlighter = PeggySyntaxHighlighter()
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
@@ -24,10 +23,6 @@ class HighlightAnnotator : Annotator {
                     .range(range)
                     .textAttributes(PeggySyntaxHighlighter.LABEL).create()
                 return
-            }
-
-            else -> {
-                println("else e:" + element.elementType + " - p:" + element.parent.elementType)
             }
         }
 

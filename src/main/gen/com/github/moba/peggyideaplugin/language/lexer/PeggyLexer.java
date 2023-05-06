@@ -25,8 +25,10 @@ class PeggyLexer implements FlexLexer {
   /** lexical states */
   public static final int YYINITIAL = 0;
   public static final int CODE = 2;
-  public static final int DOUBLE_STRING = 4;
-  public static final int SINGLE_STRING = 6;
+  public static final int INIT_CODE = 4;
+  public static final int WAITING_RIGHT_BRACE = 6;
+  public static final int DOUBLE_STRING = 8;
+  public static final int SINGLE_STRING = 10;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -35,7 +37,7 @@ class PeggyLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3, 3
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5, 5
   };
 
   /** 
@@ -149,15 +151,15 @@ class PeggyLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\1\1\2\2\0\1\3\2\1\1\4\1\5\1\6"+
+    "\1\1\2\2\3\0\1\3\2\1\1\4\1\5\1\6"+
     "\1\3\1\7\1\10\1\11\1\12\1\3\1\13\1\14"+
     "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
     "\1\25\1\26\1\2\1\27\1\30\1\31\1\32\1\33"+
-    "\1\31\1\32\1\0\1\34\2\0\1\35\1\36\2\0"+
-    "\1\34\23\0";
+    "\1\34\1\35\1\33\1\34\1\0\1\36\2\0\1\37"+
+    "\1\40\1\41\2\0\1\36\23\0";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[64];
+    int [] result = new int[69];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -183,16 +185,17 @@ class PeggyLexer implements FlexLexer {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\52\0\124\0\176\0\250\0\322\0\374\0\u0126"+
-    "\0\250\0\u0150\0\u017a\0\250\0\250\0\u01a4\0\250\0\u01ce"+
-    "\0\250\0\250\0\250\0\250\0\250\0\250\0\250\0\250"+
-    "\0\250\0\250\0\250\0\250\0\u01f8\0\250\0\250\0\u0222"+
-    "\0\u024c\0\250\0\u0276\0\u02a0\0\u017a\0\u02ca\0\u02f4\0\u031e"+
-    "\0\250\0\250\0\u0348\0\u0372\0\250\0\u039c\0\u03c6\0\u03f0"+
-    "\0\u041a\0\u0444\0\u046e\0\u0498\0\u04c2\0\u04ec\0\u0516\0\u0540"+
-    "\0\u056a\0\u0594\0\u05be\0\u05e8\0\u0612\0\u063c\0\u0666\0\u0690";
+    "\0\u0150\0\u017a\0\374\0\u01a4\0\u01ce\0\374\0\374\0\u01f8"+
+    "\0\374\0\u0222\0\374\0\374\0\374\0\374\0\374\0\374"+
+    "\0\374\0\374\0\374\0\374\0\374\0\374\0\u024c\0\374"+
+    "\0\374\0\u0276\0\374\0\u02a0\0\u02ca\0\374\0\u02f4\0\u031e"+
+    "\0\u01ce\0\u0348\0\u0372\0\u039c\0\374\0\374\0\374\0\u03c6"+
+    "\0\u03f0\0\374\0\u041a\0\u0444\0\u046e\0\u0498\0\u04c2\0\u04ec"+
+    "\0\u0516\0\u0540\0\u056a\0\u0594\0\u05be\0\u05e8\0\u0612\0\u063c"+
+    "\0\u0666\0\u0690\0\u06ba\0\u06e4\0\u070e";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[64];
+    int [] result = new int[69];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -215,28 +218,29 @@ class PeggyLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\5\1\6\1\5\1\6\1\7\1\10\1\11\1\12"+
-    "\1\13\1\14\16\12\1\15\1\5\1\16\1\17\1\20"+
-    "\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
-    "\1\31\1\32\1\33\1\34\1\5\33\35\1\36\15\35"+
-    "\1\37\10\40\1\41\36\40\1\42\2\40\10\43\1\44"+
-    "\37\43\1\42\1\43\53\0\1\6\1\0\2\6\46\0"+
-    "\1\6\1\0\1\6\1\7\2\0\1\12\1\45\1\0"+
-    "\21\12\24\0\1\46\1\47\47\0\1\12\2\0\1\12"+
-    "\1\45\1\0\21\12\30\0\1\50\72\0\1\16\53\0"+
-    "\1\51\15\0\33\35\1\0\15\35\1\0\10\40\1\0"+
-    "\36\40\1\0\2\40\47\0\1\52\2\0\10\43\1\0"+
-    "\37\43\1\0\1\43\50\0\1\52\1\0\1\46\2\0"+
-    "\47\46\6\47\1\53\43\47\12\0\1\54\37\0\5\47"+
-    "\1\55\1\53\43\47\13\0\1\56\52\0\1\57\52\0"+
-    "\1\60\52\0\1\61\52\0\1\62\52\0\1\63\52\0"+
-    "\1\64\52\0\1\65\44\0\1\66\57\0\1\67\52\0"+
-    "\1\70\45\0\1\71\56\0\1\72\44\0\1\73\57\0"+
-    "\1\74\52\0\1\75\42\0\1\76\44\0\1\77\53\0"+
-    "\1\100\54\0\1\12\31\0";
+    "\1\7\1\10\1\7\1\10\1\11\1\12\1\13\1\14"+
+    "\1\15\1\16\16\14\1\17\1\7\1\20\1\21\1\22"+
+    "\1\23\1\24\1\25\1\26\1\27\1\30\1\31\1\32"+
+    "\1\33\1\34\1\35\1\36\1\7\33\37\1\40\15\37"+
+    "\1\41\33\37\1\40\15\37\1\42\51\7\1\43\10\44"+
+    "\1\45\36\44\1\46\2\44\10\47\1\50\37\47\1\46"+
+    "\1\47\53\0\1\10\1\0\2\10\46\0\1\10\1\0"+
+    "\1\10\1\11\2\0\1\14\1\51\1\0\21\14\24\0"+
+    "\1\52\1\53\47\0\1\14\2\0\1\14\1\51\1\0"+
+    "\21\14\30\0\1\54\72\0\1\20\53\0\1\55\15\0"+
+    "\33\37\1\0\15\37\52\0\1\56\10\44\1\0\36\44"+
+    "\1\0\2\44\47\0\1\57\2\0\10\47\1\0\37\47"+
+    "\1\0\1\47\50\0\1\57\1\0\1\52\2\0\47\52"+
+    "\6\53\1\60\43\53\12\0\1\61\37\0\5\53\1\62"+
+    "\1\60\43\53\13\0\1\63\52\0\1\64\52\0\1\65"+
+    "\52\0\1\66\52\0\1\67\52\0\1\70\52\0\1\71"+
+    "\52\0\1\72\44\0\1\73\57\0\1\74\52\0\1\75"+
+    "\45\0\1\76\56\0\1\77\44\0\1\100\57\0\1\101"+
+    "\52\0\1\102\42\0\1\103\44\0\1\104\53\0\1\105"+
+    "\54\0\1\14\31\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1722];
+    int [] result = new int[1848];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -274,12 +278,13 @@ class PeggyLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\1\2\0\1\11\3\1\1\11\2\1\2\11\1\1"+
-    "\1\11\1\1\14\11\1\1\2\11\2\1\1\11\2\1"+
-    "\1\0\1\1\2\0\2\11\2\0\1\11\23\0";
+    "\3\1\3\0\1\11\3\1\1\11\2\1\2\11\1\1"+
+    "\1\11\1\1\14\11\1\1\2\11\1\1\1\11\2\1"+
+    "\1\11\2\1\1\0\1\1\2\0\3\11\2\0\1\11"+
+    "\23\0";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[64];
+    int [] result = new int[69];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -654,152 +659,172 @@ class PeggyLexer implements FlexLexer {
             { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 31: break;
+          case 34: break;
           case 2: 
-            { return PeggyTypes.CODE_BODY;
+            { 
             } 
             // fall through
-          case 32: break;
+          case 35: break;
           case 3: 
             { return TokenType.BAD_CHARACTER;
             } 
             // fall through
-          case 33: break;
+          case 36: break;
           case 4: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_CHOICE;
             } 
             // fall through
-          case 34: break;
+          case 37: break;
           case 5: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_STAR;
             } 
             // fall through
-          case 35: break;
+          case 38: break;
           case 6: 
             { yybegin(YYINITIAL); return PeggyTypes.IDENTIFIER_NAME;
             } 
             // fall through
-          case 36: break;
+          case 39: break;
           case 7: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_PLUCK;
             } 
             // fall through
-          case 37: break;
+          case 40: break;
           case 8: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_DOLLAR;
             } 
             // fall through
-          case 38: break;
+          case 41: break;
           case 9: 
             { yybegin(YYINITIAL); return PeggyTypes.INTEGER;
             } 
             // fall through
-          case 39: break;
+          case 42: break;
           case 10: 
-            { braceCount++;yybegin(CODE); return PeggyTypes.LEFT_BRACE;
+            { braceCount++;yybegin(CODE);
             } 
             // fall through
-          case 40: break;
+          case 43: break;
           case 11: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_EQ;
             } 
             // fall through
-          case 41: break;
+          case 44: break;
           case 12: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_COLON;
             } 
             // fall through
-          case 42: break;
+          case 45: break;
           case 13: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_OR;
             } 
             // fall through
-          case 43: break;
+          case 46: break;
           case 14: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_AND;
             } 
             // fall through
-          case 44: break;
+          case 47: break;
           case 15: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_OPTIONAL;
             } 
             // fall through
-          case 45: break;
+          case 48: break;
           case 16: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_COMMA;
             } 
             // fall through
-          case 46: break;
+          case 49: break;
           case 17: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_PLUS;
             } 
             // fall through
-          case 47: break;
+          case 50: break;
           case 18: 
             { yybegin(YYINITIAL); return PeggyTypes.OP_NOT;
             } 
             // fall through
-          case 48: break;
+          case 51: break;
           case 19: 
             { yybegin(YYINITIAL); return PeggyTypes.LEFT_PAREN;
             } 
             // fall through
-          case 49: break;
+          case 52: break;
           case 20: 
             { yybegin(YYINITIAL); return PeggyTypes.RIGHT_PAREN;
             } 
             // fall through
-          case 50: break;
+          case 53: break;
           case 21: 
             { string.setLength(0); yybegin(DOUBLE_STRING);
             } 
             // fall through
-          case 51: break;
+          case 54: break;
           case 22: 
             { string.setLength(0); yybegin(SINGLE_STRING);
             } 
             // fall through
-          case 52: break;
-          case 23: 
-            { braceCount++;return PeggyTypes.LEFT_BRACE;
-            } 
-            // fall through
-          case 53: break;
-          case 24: 
-            { if(--braceCount==0){yybegin(YYINITIAL);} return PeggyTypes.RIGHT_BRACE;
-            } 
-            // fall through
-          case 54: break;
-          case 25: 
-            { string.append( yytext() );
-            } 
-            // fall through
           case 55: break;
-          case 26: 
-            { string.append('\\');
+          case 23: 
+            { braceCount++;
             } 
             // fall through
           case 56: break;
-          case 27: 
-            { yybegin(YYINITIAL);return PeggyTypes.STRING;
+          case 24: 
+            { if(--braceCount==0){yybegin(YYINITIAL); return PeggyTypes.CODE_BODY; }
             } 
             // fall through
           case 57: break;
-          case 28: 
-            { yybegin(YYINITIAL); return PeggyTypes.COMMENT;
+          case 25: 
+            { --braceCount;
             } 
             // fall through
           case 58: break;
-          case 29: 
-            { braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE;
+          case 26: 
+            { yybegin(INIT_CODE); return PeggyTypes.RIGHT_BRACE;
             } 
             // fall through
           case 59: break;
-          case 30: 
-            { string.append('\"');
+          case 27: 
+            { string.append( yytext() );
             } 
             // fall through
           case 60: break;
+          case 28: 
+            { string.append('\\');
+            } 
+            // fall through
+          case 61: break;
+          case 29: 
+            { yybegin(YYINITIAL);return PeggyTypes.STRING;
+            } 
+            // fall through
+          case 62: break;
+          case 30: 
+            { yybegin(YYINITIAL); return PeggyTypes.COMMENT;
+            } 
+            // fall through
+          case 63: break;
+          case 31: 
+            { braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE;
+            } 
+            // fall through
+          case 64: break;
+          case 32: 
+            { braceCount--;
+          yypushback(1);
+          if(braceCount == 1){
+              yybegin(WAITING_RIGHT_BRACE);
+              return PeggyTypes.CODE_BODY;
+          }
+            } 
+            // fall through
+          case 65: break;
+          case 33: 
+            { string.append('\"');
+            } 
+            // fall through
+          case 66: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

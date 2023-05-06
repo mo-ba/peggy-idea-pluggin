@@ -25,7 +25,7 @@ abstract class PeggyLexerTest(val path: String) : LexerTestCase() {
     }
 
     fun testLexingTestData() {
-        runTest("")
+        runTest(path)
 
 
     }
@@ -51,3 +51,5 @@ class DoubleStringLexerTest : PeggyLexerTest("double-string")
 class SingleStringLexerTest : PeggyLexerTest("single-string")
 class PrimaryExpressionLexerTest : PeggyLexerTest("expression-primary")
 class PluckLexerTest : PeggyLexerTest("pluck")
+class CodeBlockRuleLexerTest : PeggyLexerTest("rule-code-block") {}
+class TopInitBlockRuleLexerTest : PeggyLexerTest("code-block-top") {}

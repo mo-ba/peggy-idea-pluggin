@@ -19,7 +19,7 @@ import com.intellij.lexer.FlexLexer;
 %eof}
 
 
-%state CODE DOUBLE_STRING SINGLE_STRING
+%state CODE INIT_CODE WAITING_RIGHT_BRACE DOUBLE_STRING SINGLE_STRING
 %{
     StringBuffer string = new StringBuffer();
     int braceCount = 0;
@@ -131,7 +131,9 @@ HexDigit
     {IdentifierName} { yybegin(YYINITIAL); return PeggyTypes.IDENTIFIER_NAME; }
     {Integer} { yybegin(YYINITIAL); return PeggyTypes.INTEGER; }
 
-    "{" {braceCount++;yybegin(CODE); return PeggyTypes.LEFT_BRACE; }
+
+//    "{{" {braceCount++;yypushback(1);yybegin(INIT_CODE); return PeggyTypes.LEFT_BRACE; }
+    "{" {braceCount++;yybegin(CODE); }
 
 
     ".." {braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE; }
@@ -171,7 +173,25 @@ HexDigit
 }
 <CODE> {
 
-    "{" {braceCount++;return PeggyTypes.LEFT_BRACE; }
-    "}" {if(--braceCount==0){yybegin(YYINITIAL);} return PeggyTypes.RIGHT_BRACE; }
-    ([^{}])* {return PeggyTypes.CODE_BODY; }
+    "{" {braceCount++; }
+    "}" {if(--braceCount==0){yybegin(YYINITIAL); return PeggyTypes.CODE_BODY; }  }
+    ([^{}])* {}
+}
+<WAITING_RIGHT_BRACE> {
+     "}" {yybegin(INIT_CODE); return PeggyTypes.RIGHT_BRACE; }
+    [^] { return TokenType.BAD_CHARACTER; }
+}
+<INIT_CODE> {
+
+    "{" {braceCount++; }
+    "}" {--braceCount; }
+    "}}" {
+          braceCount--;
+          yypushback(1);
+          if(braceCount == 1){
+              yybegin(WAITING_RIGHT_BRACE);
+              return PeggyTypes.CODE_BODY;
+          }
+      }
+    ([^{}])* {}
 }
