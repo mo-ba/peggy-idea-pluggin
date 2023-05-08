@@ -64,7 +64,7 @@ public class PeggyVisitor extends PsiElementVisitor {
   }
 
   public void visitRuleDefinition(@NotNull PeggyRuleDefinition o) {
-    visitPsiElement(o);
+    visitDefinition(o);
   }
 
   public void visitRuleReferenceExpression(@NotNull PeggyRuleReferenceExpression o) {
@@ -88,6 +88,10 @@ public class PeggyVisitor extends PsiElementVisitor {
   }
 
   public void visitX(@NotNull PeggyX o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDefinition(@NotNull PeggyDefinition o) {
     visitPsiElement(o);
   }
 

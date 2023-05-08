@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NonNls
 
 
 class PeggyTokenType(debugName: @NonNls String) :
-    IElementType(debugName, PeggyLanguage) {
+    IElementType(debugName, PeggyLanguage.INSTANCE) {
     override fun toString(): String {
         return "PeggyTokenType." + super.toString()
     }

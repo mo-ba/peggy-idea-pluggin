@@ -9,7 +9,7 @@ import com.intellij.psi.FileViewProvider
 
 
 class PeggyFile(viewProvider: FileViewProvider) :
-    PsiFileBase(viewProvider, PeggyLanguage) {
+    PsiFileBase(viewProvider, PeggyLanguage.INSTANCE) {
     override fun getFileType(): FileType {
         return PeggyFileType.INSTANCE
     }

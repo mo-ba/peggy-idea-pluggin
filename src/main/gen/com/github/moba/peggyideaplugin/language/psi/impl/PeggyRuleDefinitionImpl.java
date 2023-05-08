@@ -8,12 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyRuleDefinitionImpl extends ASTWrapperPsiElement implements PeggyRuleDefinition {
+public class PeggyRuleDefinitionImpl extends PeggyDefinitionImpl implements PeggyRuleDefinition {
 
-  public PeggyRuleDefinitionImpl(@NotNull ASTNode node) {
+  public PeggyRuleDefinitionImpl(ASTNode node) {
     super(node);
   }
 

@@ -4,7 +4,7 @@ import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
 
-class PeggyFileType private constructor() : LanguageFileType(PeggyLanguage) {
+class PeggyFileType private constructor() : LanguageFileType(PeggyLanguage.INSTANCE) {
     override fun getName(): String {
         return "Peggy Js File"
     }

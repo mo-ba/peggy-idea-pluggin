@@ -1,5 +1,6 @@
 package com.github.moba.peggyideaplugin.language
 
+import com.github.moba.peggyideaplugin.language.psi.PeggyRuleDefinition
 import com.github.moba.peggyideaplugin.language.psi.impl.PeggyLabelIdentifierImpl
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -13,6 +14,9 @@ class HighlightAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
+        if(element is PeggyRuleDefinition){
+            println(element)
+        }
         if (element !is LeafPsiElement) {
             return
         }

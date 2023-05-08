@@ -47,6 +47,6 @@ class PeggyParserDefinition : ParserDefinition {
     }
 
     companion object {
-        val FILE = IFileElementType(PeggyLanguage)
+        val FILE = IFileElementType(PeggyLanguage.INSTANCE)
     }
 }

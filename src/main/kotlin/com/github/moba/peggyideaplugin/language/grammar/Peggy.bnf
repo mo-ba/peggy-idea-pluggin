@@ -23,7 +23,10 @@ Initializer  ::= CodeBlock
 CodeBlock ::= CODE_BODY
 
 Rule ::= RuleDefinition Skip OP_EQ Skip Expression
-RuleDefinition ::=  IDENTIFIER_NAME
+RuleDefinition ::=  IDENTIFIER_NAME {
+    implements="com.github.moba.peggyideaplugin.language.psi.PeggyDefinition"
+    mixin="com.github.moba.peggyideaplugin.language.psi.impl.PeggyDefinitionImpl"
+}
 Expression ::=  ChoiceExpression
 private ChoiceExpression ::= ActionExpression (Skip OP_CHOICE ActionExpression)* Skip
 ActionExpression ::= SequenceExpression (Skip CodeBlock)?
