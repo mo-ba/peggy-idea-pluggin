@@ -5,12 +5,20 @@
     <vendor>mo-ba</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.intellij.intelliLang</depends>
     <depends>com.intellij.java</depends>
     <depends>JavaScript</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
+    <extensions defaultExtensionNs="org.intellij.intelliLang">
+        <languageSupport
+                implementation="com.github.moba.peggyideaplugin.language.PeggyLanguageInjectionSupport"/>
+        <injectionConfig config="resources/peggy-injections.xml"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
+
 
         <fileType
                 name="Peggy Js File"
@@ -37,11 +45,10 @@
         />
 
 
-                <completion.contributor
-                        language="Peggy"
-                        implementationClass="com.github.moba.peggyideaplugin.language.PeggyCompletionContributor"
-                />
-
+        <completion.contributor
+                language="Peggy"
+                implementationClass="com.github.moba.peggyideaplugin.language.PeggyCompletionContributor"
+        />
 
 
     </extensions>

@@ -8,17 +8,11 @@ import com.github.moba.peggyideaplugin.language.psi.PeggyTypes
 import com.github.moba.peggyideaplugin.language.psi.impl.PeggyLabelIdentifierImpl
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.openapi.util.AtomicClearableLazyValue
-import com.intellij.openapi.util.ClearableLazyValue
-import com.intellij.openapi.util.Conditions
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import com.intellij.psi.SyntaxTraverser
 import com.intellij.util.ProcessingContext
 import java.util.*
-import java.util.function.Supplier
-import kotlin.collections.LinkedHashMap
 
 
 class PeggyCompletionContributor : CompletionContributor() {
@@ -62,7 +56,8 @@ class PeggyCompletionContributor : CompletionContributor() {
                         }
 
                         else -> {
-                            println(parent)
+                           //do nothing
+                            val x = 0;
                         }
                     }
 

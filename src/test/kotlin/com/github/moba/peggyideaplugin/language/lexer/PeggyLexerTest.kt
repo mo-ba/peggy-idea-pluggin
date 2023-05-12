@@ -20,7 +20,6 @@ abstract class PeggyLexerTest(val path: String) : LexerTestCase() {
         val sourceFilePath = filePath(path, ".peggy")
         val expected = FileUtil.loadFile(File(expectedFilePath))
         val source = FileUtil.loadFile(File(sourceFilePath))
-        println(expectedFilePath)
         doTest(source, expected)
     }
 

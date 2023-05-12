@@ -45,6 +45,7 @@ intellij {
     plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
 
     plugins.set(listOf(
+        "org.intellij.intelliLang",
         "com.intellij.java",
         "JavaScript",
     ))
