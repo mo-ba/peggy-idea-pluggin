@@ -20,7 +20,10 @@ Grammar ::= Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
 
 TopLevelInitializer  ::= LEFT_BRACE CodeBlock RIGHT_BRACE
 Initializer  ::= CodeBlock
-CodeBlock ::= CODE_BODY
+CodeBlock ::= CODE_BODY {
+implements="com.github.moba.peggyideaplugin.language.psi.PeggyCode"
+mixin="com.github.moba.peggyideaplugin.language.psi.impl.PeggyCodeImpl"
+}
 
 Rule ::= RuleDefinition Skip OP_EQ Skip Expression
 RuleDefinition ::=  IDENTIFIER_NAME {

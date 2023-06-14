@@ -8,12 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyCodeBlockImpl extends ASTWrapperPsiElement implements PeggyCodeBlock {
+public class PeggyCodeBlockImpl extends PeggyCodeImpl implements PeggyCodeBlock {
 
-  public PeggyCodeBlockImpl(@NotNull ASTNode node) {
+  public PeggyCodeBlockImpl(ASTNode node) {
     super(node);
   }
 

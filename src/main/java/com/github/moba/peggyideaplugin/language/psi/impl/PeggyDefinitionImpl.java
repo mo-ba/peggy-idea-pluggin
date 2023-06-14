@@ -1,6 +1,5 @@
 package com.github.moba.peggyideaplugin.language.psi.impl;
 
-import com.github.moba.peggyideaplugin.language.PeggyLanguage;
 import com.github.moba.peggyideaplugin.language.PeggyReference;
 import com.github.moba.peggyideaplugin.language.psi.PeggyDefinition;
 import com.github.moba.peggyideaplugin.language.psi.PeggyElementFactory;
@@ -11,7 +10,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.NlsSafe;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

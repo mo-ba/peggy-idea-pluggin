@@ -12,13 +12,14 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="org.intellij.intelliLang">
-        <languageSupport
-                implementation="com.github.moba.peggyideaplugin.language.PeggyLanguageInjectionSupport"/>
         <injectionConfig config="resources/peggy-injections.xml"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
 
+        <languageInjectionContributor
+                implementationClass="com.github.moba.peggyideaplugin.language.PeggyJsInjector"
+                language="Peggy"/>
 
         <fileType
                 name="Peggy Js File"
@@ -49,6 +50,10 @@
                 language="Peggy"
                 implementationClass="com.github.moba.peggyideaplugin.language.PeggyCompletionContributor"
         />
+
+        <lang.elementManipulator
+                forClass="com.github.moba.peggyideaplugin.language.psi.PeggyCodeBlock"
+                implementationClass="com.github.moba.peggyideaplugin.language.PeggyCodeBlockElementManipulator"/>
 
 
     </extensions>
