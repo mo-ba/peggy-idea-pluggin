@@ -10,7 +10,31 @@ import com.intellij.psi.util.elementType
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
-val params = listOf("location", "text")
+typealias Decl = Pair<String, String>
+
+val definitions: List<String> = listOf(
+    "/**\n" +
+            " * @typedef {Object} PeggyPosition\n" +
+            " * @property {number} offset\n" +
+            " * @property {number} line\n" +
+            " * @property {number} column\n" +
+            " */",
+    "/**\n" +
+            " * @typedef {Object} PeggyLocation\n" +
+            " * @property {PeggyPosition} start\n" +
+            " * @property {PeggyPosition} end\n" +
+            " */"
+)
+
+val declarations: List<Decl> = listOf(
+    Pair(
+        "location",
+        "{function: {start:{offset:number,line:number,column:number},end:{offset:number,line:number,column:number}}}"
+    ),
+    Pair("text", "{function: string}")
+)
+
+val JavaScript = Language.findLanguageByID("JavaScript")!!
 
 class PeggyJsInjector : LanguageInjectionContributor {
     @Nullable
@@ -19,16 +43,52 @@ class PeggyJsInjector : LanguageInjectionContributor {
         return when (context.elementType) {
 
             PeggyTypes.CODE_BLOCK -> {
-
+                val prefix = buildPrefix(getLabels(context))
                 SimpleInjection(
-                    Language.findLanguageByID("JavaScript")!!, "((" +
-                            params.joinToString(", ") +
-                            ")=>", ")", null
+                    JavaScript,
+                    prefix,
+                    ");",
+                    null
                 )
             }
-
             else -> null
-
         }
     }
+}
+
+fun buildPrefix(labels: List<String>): String {
+    return listOf(
+        getDefinitions(),
+        getDeclarations(),
+        "(function (${getParamString(labels)})"
+    ).joinToString("\n\n")
+}
+
+fun getDefinitions(): String {
+    return definitions.joinToString("\n")
+}
+
+fun getParamString(labels: List<String>): String {
+    return labels.joinToString(", ")
+}
+
+fun getDeclarations(): String {
+    return declarations.joinToString("\n\n") { getDeclaration(it) }
+}
+
+fun getDeclaration(decl: Decl): String {
+    return listOf(
+        "/**",
+        " * @type ${decl.second}",
+        " */",
+        "const ${decl.first} = ${decl.first}"
+    ).joinToString("\n")
+}
+
+fun getLabels(context: PsiElement): List<String> {
+    return context
+        .parent
+        .children
+        .filter { it.elementType == PeggyTypes.LABEL_COLON }
+        .map { it.firstChild.text }
 }
