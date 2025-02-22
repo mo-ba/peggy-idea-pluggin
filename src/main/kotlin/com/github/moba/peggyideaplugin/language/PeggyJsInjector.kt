@@ -1,5 +1,8 @@
 package com.github.moba.peggyideaplugin.language
 
+import com.github.moba.peggyideaplugin.language.psi.PeggyFile
+import com.github.moba.peggyideaplugin.language.psi.PeggyInitializer
+import com.github.moba.peggyideaplugin.language.psi.PeggyTopLevelInitializer
 import com.github.moba.peggyideaplugin.language.psi.PeggyTypes
 import com.intellij.lang.Language
 import com.intellij.lang.injection.general.Injection
@@ -40,14 +43,15 @@ class PeggyJsInjector : LanguageInjectionContributor {
     @Nullable
     override fun getInjection(@NotNull context: PsiElement): Injection? {
 
+
         return when (context.elementType) {
 
             PeggyTypes.CODE_BLOCK -> {
-                val prefix = buildPrefix(getLabels(context))
+                val prefix = buildPrefix(context)
                 SimpleInjection(
                     JavaScript,
                     prefix,
-                    ");",
+                    "\n);",
                     null
                 )
             }
@@ -56,11 +60,29 @@ class PeggyJsInjector : LanguageInjectionContributor {
     }
 }
 
-fun buildPrefix(labels: List<String>): String {
+fun getRoot(context: PsiElement): PsiElement {
+    var element = context
+    while (element !is PeggyFile) {
+        element = element.parent
+    }
+    return element;
+}
+
+fun getInitializer(context: PsiElement?, offset:Int): String{
+    return context?.text?.let { text -> text.substring(offset, text.length-offset) }.orEmpty()+";"
+}
+
+fun buildPrefix(context: PsiElement): String {
+    val labels = getLabels(context)
+    val root= getRoot(context)
+    val topLevelInitializer = root.children.find { it is PeggyTopLevelInitializer }
+    val initializer = root.children.find { it is PeggyInitializer }
     return listOf(
+        getInitializer(topLevelInitializer,2),
+        getInitializer(initializer,1),
         getDefinitions(),
         getDeclarations(),
-        "(function (${getParamString(labels)})"
+        "(function (${getParamString(labels)})\n"
     ).joinToString("\n\n")
 }
 
@@ -86,6 +108,7 @@ fun getDeclaration(decl: Decl): String {
 }
 
 fun getLabels(context: PsiElement): List<String> {
+
     return context
         .parent
         .children

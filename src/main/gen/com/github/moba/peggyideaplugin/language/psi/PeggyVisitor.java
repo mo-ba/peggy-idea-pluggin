@@ -35,10 +35,6 @@ public class PeggyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGrammar(@NotNull PeggyGrammar o) {
-    visitPsiElement(o);
-  }
-
   public void visitInitializer(@NotNull PeggyInitializer o) {
     visitPsiElement(o);
   }

@@ -15,7 +15,6 @@ public interface PeggyTypes {
   IElementType CHARACTER_CLASS_MATCHER = new PeggyElementType("CHARACTER_CLASS_MATCHER");
   IElementType CODE_BLOCK = new PeggyElementType("CODE_BLOCK");
   IElementType EXPRESSION = new PeggyElementType("EXPRESSION");
-  IElementType GRAMMAR = new PeggyElementType("GRAMMAR");
   IElementType INITIALIZER = new PeggyElementType("INITIALIZER");
   IElementType LABEL_COLON = new PeggyElementType("LABEL_COLON");
   IElementType LABEL_IDENTIFIER = new PeggyElementType("LABEL_IDENTIFIER");
@@ -79,9 +78,6 @@ public interface PeggyTypes {
       }
       else if (type == EXPRESSION) {
         return new PeggyExpressionImpl(node);
-      }
-      else if (type == GRAMMAR) {
-        return new PeggyGrammarImpl(node);
       }
       else if (type == INITIALIZER) {
         return new PeggyInitializerImpl(node);

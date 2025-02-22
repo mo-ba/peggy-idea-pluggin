@@ -32,7 +32,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   static boolean parse_root_(IElementType root_, PsiBuilder builder_, int level_) {
-    return peggyFile(builder_, level_ + 1);
+    return PeggyFile(builder_, level_ + 1);
   }
 
   /* ********************************************************** */
@@ -192,78 +192,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
-  public static boolean Grammar(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, GRAMMAR, "<grammar>");
-    result_ = Skip(builder_, level_ + 1);
-    result_ = result_ && Grammar_1(builder_, level_ + 1);
-    result_ = result_ && Grammar_2(builder_, level_ + 1);
-    result_ = result_ && Grammar_3(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  // (TopLevelInitializer Skip)?
-  private static boolean Grammar_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_1")) return false;
-    Grammar_1_0(builder_, level_ + 1);
-    return true;
-  }
-
-  // TopLevelInitializer Skip
-  private static boolean Grammar_1_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_1_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = TopLevelInitializer(builder_, level_ + 1);
-    result_ = result_ && Skip(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // (Initializer Skip)?
-  private static boolean Grammar_2(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_2")) return false;
-    Grammar_2_0(builder_, level_ + 1);
-    return true;
-  }
-
-  // Initializer Skip
-  private static boolean Grammar_2_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_2_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Initializer(builder_, level_ + 1);
-    result_ = result_ && Skip(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // (Rule Skip)*
-  private static boolean Grammar_3(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_3")) return false;
-    while (true) {
-      int pos_ = current_position_(builder_);
-      if (!Grammar_3_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "Grammar_3", pos_)) break;
-    }
-    return true;
-  }
-
-  // Rule Skip
-  private static boolean Grammar_3_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Grammar_3_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = Rule(builder_, level_ + 1);
-    result_ = result_ && Skip(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  /* ********************************************************** */
   // CodeBlock
   public static boolean Initializer(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Initializer")) return false;
@@ -346,6 +274,78 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(builder_, level_, "LiteralMatcher_1")) return false;
     consumeToken(builder_, "i");
     return true;
+  }
+
+  /* ********************************************************** */
+  // Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
+  static boolean PeggyFile(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = Skip(builder_, level_ + 1);
+    result_ = result_ && PeggyFile_1(builder_, level_ + 1);
+    result_ = result_ && PeggyFile_2(builder_, level_ + 1);
+    result_ = result_ && PeggyFile_3(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // (TopLevelInitializer Skip)?
+  private static boolean PeggyFile_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_1")) return false;
+    PeggyFile_1_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // TopLevelInitializer Skip
+  private static boolean PeggyFile_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_1_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = TopLevelInitializer(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // (Initializer Skip)?
+  private static boolean PeggyFile_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_2")) return false;
+    PeggyFile_2_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // Initializer Skip
+  private static boolean PeggyFile_2_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_2_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = Initializer(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // (Rule Skip)*
+  private static boolean PeggyFile_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_3")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!PeggyFile_3_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "PeggyFile_3", pos_)) break;
+    }
+    return true;
+  }
+
+  // Rule Skip
+  private static boolean PeggyFile_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "PeggyFile_3_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = Rule(builder_, level_ + 1);
+    result_ = result_ && Skip(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
   }
 
   /* ********************************************************** */
@@ -693,12 +693,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     result_ = result_ && consumeToken(builder_, RIGHT_BRACE);
     exit_section_(builder_, marker_, TOP_LEVEL_INITIALIZER, result_);
     return result_;
-  }
-
-  /* ********************************************************** */
-  // Grammar
-  static boolean peggyFile(PsiBuilder builder_, int level_) {
-    return Grammar(builder_, level_ + 1);
   }
 
 }

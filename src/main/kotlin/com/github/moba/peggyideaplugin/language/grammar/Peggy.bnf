@@ -14,9 +14,7 @@
 
 }
 
-peggyFile ::= Grammar
-
-Grammar ::= Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
+PeggyFile ::= Skip (TopLevelInitializer Skip)?  (Initializer Skip)? (Rule Skip)*
 
 TopLevelInitializer  ::= LEFT_BRACE CodeBlock RIGHT_BRACE
 Initializer  ::= CodeBlock
