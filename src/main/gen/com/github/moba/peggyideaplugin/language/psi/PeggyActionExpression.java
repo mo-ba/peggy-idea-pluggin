@@ -10,6 +10,9 @@ public interface PeggyActionExpression extends PsiElement {
   @NotNull
   List<PeggyBoundaries> getBoundariesList();
 
+  @NotNull
+  List<PeggyCharacterClassMatcher> getCharacterClassMatcherList();
+
   @Nullable
   PeggyCodeBlock getCodeBlock();
 

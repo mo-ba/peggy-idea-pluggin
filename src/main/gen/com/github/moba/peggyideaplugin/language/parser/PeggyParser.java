@@ -121,6 +121,18 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // CHAR_CLASS
+  public static boolean CharacterClassMatcher(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "CharacterClassMatcher")) return false;
+    if (!nextTokenIs(builder_, CHAR_CLASS)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, CHAR_CLASS);
+    exit_section_(builder_, marker_, CHARACTER_CLASS_MATCHER, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // ActionExpression (Skip OP_CHOICE ActionExpression)* Skip
   static boolean ChoiceExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ChoiceExpression")) return false;
@@ -390,6 +402,8 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   //     | LiteralMatcher
   //     | RuleReferenceExpression
   //     | SemanticPredicateExpression
+  //     | ANY_MATCHER
+  //     | CharacterClassMatcher
   static boolean PrimaryExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "PrimaryExpression")) return false;
     boolean result_;
@@ -398,6 +412,8 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     if (!result_) result_ = LiteralMatcher(builder_, level_ + 1);
     if (!result_) result_ = RuleReferenceExpression(builder_, level_ + 1);
     if (!result_) result_ = SemanticPredicateExpression(builder_, level_ + 1);
+    if (!result_) result_ = consumeToken(builder_, ANY_MATCHER);
+    if (!result_) result_ = CharacterClassMatcher(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
@@ -446,7 +462,7 @@ public class PeggyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // RuleDefinition Skip OP_EQ Skip Expression
+  // RuleDefinition Skip (STRING Skip)? OP_EQ Skip Expression
   public static boolean Rule(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Rule")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER_NAME)) return false;
@@ -454,10 +470,29 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = RuleDefinition(builder_, level_ + 1);
     result_ = result_ && Skip(builder_, level_ + 1);
+    result_ = result_ && Rule_2(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, OP_EQ);
     result_ = result_ && Skip(builder_, level_ + 1);
     result_ = result_ && Expression(builder_, level_ + 1);
     exit_section_(builder_, marker_, RULE, result_);
+    return result_;
+  }
+
+  // (STRING Skip)?
+  private static boolean Rule_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Rule_2")) return false;
+    Rule_2_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // STRING Skip
+  private static boolean Rule_2_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Rule_2_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, STRING);
+    result_ = result_ && Skip(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
@@ -657,18 +692,6 @@ public class PeggyParser implements PsiParser, LightPsiParser {
     result_ = result_ && CodeBlock(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, RIGHT_BRACE);
     exit_section_(builder_, marker_, TOP_LEVEL_INITIALIZER, result_);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // INIT_CODE
-  public static boolean X(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "X")) return false;
-    if (!nextTokenIs(builder_, INIT_CODE)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, INIT_CODE);
-    exit_section_(builder_, marker_, X, result_);
     return result_;
   }
 

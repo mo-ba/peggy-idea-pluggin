@@ -34,6 +34,12 @@ public class PeggyActionExpressionImpl extends ASTWrapperPsiElement implements P
   }
 
   @Override
+  @NotNull
+  public List<PeggyCharacterClassMatcher> getCharacterClassMatcherList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, PeggyCharacterClassMatcher.class);
+  }
+
+  @Override
   @Nullable
   public PeggyCodeBlock getCodeBlock() {
     return findChildByClass(PeggyCodeBlock.class);

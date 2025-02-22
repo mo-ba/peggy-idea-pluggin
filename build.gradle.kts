@@ -44,11 +44,13 @@ intellij {
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
 
-    plugins.set(listOf(
-        "org.intellij.intelliLang",
-        "com.intellij.java",
-        "JavaScript",
-    ))
+    plugins.set(
+        listOf(
+            "org.intellij.intelliLang",
+            "com.intellij.java",
+            "JavaScript",
+        )
+    )
 
 }
 
@@ -191,4 +193,24 @@ tasks {
         // if set, the plugin will remove a parser output file and psi output directory before generating new ones. Default: false
         purgeOldFiles.set(true)
     }
+
 }
+
+
+tasks.register("run") {
+    tasks.get("generateLexer").dependsOn("generateParser")
+    tasks.get("compileTestJava").dependsOn("generateLexer")
+    tasks.get("compileKotlin").dependsOn("generateParser")
+    tasks.get("test").dependsOn("compileKotlin")
+    tasks.get("runIde").dependsOn("test")
+
+    dependsOn(
+        "generateParser",
+        "generateLexer",
+        "compileTestJava",
+        "compileKotlin",
+        "test",
+        "runIde",
+    )
+}
+

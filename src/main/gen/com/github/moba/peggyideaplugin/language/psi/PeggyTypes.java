@@ -12,6 +12,7 @@ public interface PeggyTypes {
   IElementType BOUNDARIES = new PeggyElementType("BOUNDARIES");
   IElementType BOUNDARY = new PeggyElementType("BOUNDARY");
   IElementType BRACE = new PeggyElementType("BRACE");
+  IElementType CHARACTER_CLASS_MATCHER = new PeggyElementType("CHARACTER_CLASS_MATCHER");
   IElementType CODE_BLOCK = new PeggyElementType("CODE_BLOCK");
   IElementType EXPRESSION = new PeggyElementType("EXPRESSION");
   IElementType GRAMMAR = new PeggyElementType("GRAMMAR");
@@ -28,12 +29,12 @@ public interface PeggyTypes {
   IElementType SEMANTIC_PREDICATE_OPERATOR = new PeggyElementType("SEMANTIC_PREDICATE_OPERATOR");
   IElementType SUFFIXED_OPERATOR = new PeggyElementType("SUFFIXED_OPERATOR");
   IElementType TOP_LEVEL_INITIALIZER = new PeggyElementType("TOP_LEVEL_INITIALIZER");
-  IElementType X = new PeggyElementType("X");
 
+  IElementType ANY_MATCHER = new PeggyTokenType("ANY_MATCHER");
+  IElementType CHAR_CLASS = new PeggyTokenType("CHAR_CLASS");
   IElementType CODE_BODY = new PeggyTokenType("CODE_BODY");
   IElementType COMMENT = new PeggyTokenType("COMMENT");
   IElementType IDENTIFIER_NAME = new PeggyTokenType("IDENTIFIER_NAME");
-  IElementType INIT_CODE = new PeggyTokenType("INIT_CODE");
   IElementType INTEGER = new PeggyTokenType("INTEGER");
   IElementType LEFT_BRACE = new PeggyTokenType("LEFT_BRACE");
   IElementType LEFT_PAREN = new PeggyTokenType("LEFT_PAREN");
@@ -69,6 +70,9 @@ public interface PeggyTypes {
       }
       else if (type == BRACE) {
         return new PeggyBraceImpl(node);
+      }
+      else if (type == CHARACTER_CLASS_MATCHER) {
+        return new PeggyCharacterClassMatcherImpl(node);
       }
       else if (type == CODE_BLOCK) {
         return new PeggyCodeBlockImpl(node);
@@ -117,9 +121,6 @@ public interface PeggyTypes {
       }
       else if (type == TOP_LEVEL_INITIALIZER) {
         return new PeggyTopLevelInitializerImpl(node);
-      }
-      else if (type == X) {
-        return new PeggyXImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

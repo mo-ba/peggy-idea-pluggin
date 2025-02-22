@@ -25,7 +25,7 @@ implements="com.github.moba.peggyideaplugin.language.psi.PeggyCode"
 mixin="com.github.moba.peggyideaplugin.language.psi.impl.PeggyCodeImpl"
 }
 
-Rule ::= RuleDefinition Skip OP_EQ Skip Expression
+Rule ::= RuleDefinition Skip (STRING Skip)? OP_EQ Skip Expression
 RuleDefinition ::=  IDENTIFIER_NAME {
     implements="com.github.moba.peggyideaplugin.language.psi.PeggyDefinition"
     mixin="com.github.moba.peggyideaplugin.language.psi.impl.PeggyDefinitionImpl"
@@ -46,18 +46,20 @@ private RepeatedExpression ::= PrimaryExpression Skip OP_OR Skip Boundaries Skip
 Boundaries ::= Boundary? Skip OP_RANGE Skip Boundary?
 Boundary ::= INTEGER | IDENTIFIER_NAME | CodeBlock
 
-//| CharacterClassMatcher //todo
-//| AnyMatcher //todo
 private PrimaryExpression ::=
     LEFT_PAREN Skip Expression Skip RIGHT_PAREN
     | LiteralMatcher
     | RuleReferenceExpression
     | SemanticPredicateExpression
+    | ANY_MATCHER
+    | CharacterClassMatcher
 
 RuleReferenceExpression ::= IDENTIFIER_NAME !(Skip (STRING Skip)? OP_EQ)
 SemanticPredicateExpression ::= SemanticPredicateOperator Skip CodeBlock
 
-LiteralMatcher ::= STRING "i"? //todo i
+CharacterClassMatcher ::= CHAR_CLASS
+
+LiteralMatcher ::= STRING "i"?
 
 SemanticPredicateOperator ::= OP_AND | OP_NOT
 
@@ -68,6 +70,4 @@ private Skip ::= (COMMENT | WHITE_SPACE)* //todo
 Pluck ::= OP_PLUCK
 Brace ::= (LEFT_BRACE|RIGHT_BRACE)
 
-// todo catch
-X ::= INIT_CODE
 

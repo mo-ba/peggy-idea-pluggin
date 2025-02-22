@@ -11,14 +11,14 @@ import static com.github.moba.peggyideaplugin.language.psi.PeggyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.moba.peggyideaplugin.language.psi.*;
 
-public class PeggyXImpl extends ASTWrapperPsiElement implements PeggyX {
+public class PeggyCharacterClassMatcherImpl extends ASTWrapperPsiElement implements PeggyCharacterClassMatcher {
 
-  public PeggyXImpl(@NotNull ASTNode node) {
+  public PeggyCharacterClassMatcherImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PeggyVisitor visitor) {
-    visitor.visitX(this);
+    visitor.visitCharacterClassMatcher(this);
   }
 
   @Override

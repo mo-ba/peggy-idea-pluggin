@@ -1,4 +1,3 @@
-// Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.github.moba.peggyideaplugin.language.lexer;
 
 import com.intellij.psi.tree.IElementType;
@@ -19,7 +18,7 @@ import com.intellij.lexer.FlexLexer;
 %eof}
 
 
-%state CODE INIT_CODE WAITING_RIGHT_BRACE DOUBLE_STRING SINGLE_STRING
+%state CODE INIT_CODE CHAR_CLASS WAITING_RIGHT_BRACE WAITING_LEFT_BRACE DOUBLE_STRING SINGLE_STRING
 %{
     StringBuffer string = new StringBuffer();
     int braceCount = 0;
@@ -132,11 +131,12 @@ HexDigit
     {Integer} { yybegin(YYINITIAL); return PeggyTypes.INTEGER; }
 
 
-//    "{{" {braceCount++;yypushback(1);yybegin(INIT_CODE); return PeggyTypes.LEFT_BRACE; }
+    "{{" {braceCount+=2;yypushback(1);yybegin(WAITING_LEFT_BRACE); return PeggyTypes.LEFT_BRACE;}
     "{" {braceCount++;yybegin(CODE); }
 
 
     ".." {braceCount++;yybegin(CODE); return PeggyTypes.OP_RANGE; }
+    "." {yybegin(YYINITIAL); return PeggyTypes.ANY_MATCHER; }
     "=" {yybegin(YYINITIAL); return PeggyTypes.OP_EQ; }
     ":" {yybegin(YYINITIAL); return PeggyTypes.OP_COLON; }
     "/" {yybegin(YYINITIAL); return PeggyTypes.OP_CHOICE; }
@@ -152,24 +152,32 @@ HexDigit
     "(" {yybegin(YYINITIAL); return PeggyTypes.LEFT_PAREN; }
     ")" {yybegin(YYINITIAL); return PeggyTypes.RIGHT_PAREN; }
 
+//    .   {yybegin(YYINITIAL); return PeggyTypes.ANY_MATCHER; }
+
+    "[" { string.setLength(0); yybegin(CHAR_CLASS); }
     \"  { string.setLength(0); yybegin(DOUBLE_STRING); }
     \'  { string.setLength(0); yybegin(SINGLE_STRING); }
 
+}
 
-    [^] { return TokenType.BAD_CHARACTER; }
-
+<CHAR_CLASS> {
+    "]"            { yybegin(YYINITIAL);return PeggyTypes.CHAR_CLASS; }
+    [^\]]+         { string.append( yytext() ); }
+    "\]"           { string.append("\\]"); }
 }
 <DOUBLE_STRING> {
     \"             { yybegin(YYINITIAL);return PeggyTypes.STRING; }
-    [^\"\\]+   { string.append( yytext() ); }
-    \\\"           { string.append('\"'); }
-    \\             { string.append('\\'); }
+    [^\"\\]+       { string.append( yytext() ); }
+    \\\"           { string.append("\\\""); }
+    \\\\           { string.append("\\\\"); }
+    \\             { string.append("\\"); }
 }
 <SINGLE_STRING> {
     \'             { yybegin(YYINITIAL);return PeggyTypes.STRING; }
-    [^\'\\]+   { string.append( yytext() ); }
-    \\\'           { string.append('\"'); }
-    \\             { string.append('\\'); }
+    [^\'\\]+       { string.append( yytext() ); }
+    \\\'           { string.append("\'"); }
+    \\\\           { string.append("\\\\"); }
+    \\             { string.append("\\"); }
 }
 <CODE> {
 
@@ -177,21 +185,38 @@ HexDigit
     "}" {if(--braceCount==0){yybegin(YYINITIAL); return PeggyTypes.CODE_BODY; }  }
     ([^{}])* {}
 }
-<WAITING_RIGHT_BRACE> {
-     "}" {yybegin(INIT_CODE); return PeggyTypes.RIGHT_BRACE; }
+
+<WAITING_LEFT_BRACE> {
+     "{" {
+          yybegin(INIT_CODE);
+      }
     [^] { return TokenType.BAD_CHARACTER; }
 }
+
+<WAITING_RIGHT_BRACE> {
+     "}" {
+          yybegin(YYINITIAL);
+          return PeggyTypes.RIGHT_BRACE;
+      }
+    [^] { return TokenType.BAD_CHARACTER; }
+}
+
+
+
 <INIT_CODE> {
 
     "{" {braceCount++; }
-    "}" {--braceCount; }
     "}}" {
           braceCount--;
           yypushback(1);
           if(braceCount == 1){
+              braceCount--;
               yybegin(WAITING_RIGHT_BRACE);
               return PeggyTypes.CODE_BODY;
           }
       }
+    "}" { --braceCount; }
     ([^{}])* {}
 }
+
+[^] { return TokenType.BAD_CHARACTER;}

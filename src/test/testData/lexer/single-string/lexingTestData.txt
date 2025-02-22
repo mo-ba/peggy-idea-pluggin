@@ -1,3 +1,7 @@
+PeggyTokenType.STRING (''a'')
+WHITE_SPACE (' ')
+PeggyTokenType.STRING (''b'')
+WHITE_SPACE ('\n')
 PeggyTokenType.STRING (''co"nt\'ent'')
 WHITE_SPACE ('\n')
 PeggyTokenType.STRING (''cont\nent'')
