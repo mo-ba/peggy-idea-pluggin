@@ -27,7 +27,7 @@ import com.intellij.lexer.FlexLexer;
 SourceCharacter
  = .
 
-LineWhiteSpace = \t | \v | \f | " " | "\u00A0" | "\uFEFF" | {Zs}
+LineWhiteSpace = \t | "\u000B" /* \v */ | \f | " " | "\u00A0" | "\uFEFF" | {Zs}
 LineTerminator = [\n\r\u2028\u2029]
 WhiteSpace = ({LineWhiteSpace} | {LineTerminator})*
 
