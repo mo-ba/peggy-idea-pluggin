@@ -1,6 +1,6 @@
 package com.github.moba.peggyideaplugin.toolWindow
 
-import com.github.moba.peggyideaplugin.MyBundle
+import com.github.moba.peggyideaplugin.PeggyBundle
 import com.github.moba.peggyideaplugin.services.MyProjectService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -34,12 +34,12 @@ class MyToolWindowFactory : ToolWindowFactory {
         private val service = toolWindow.project.service<MyProjectService>()
 
         fun getContent() = JBPanel<JBPanel<*>>().apply {
-            val label = JBLabel(MyBundle.message("randomLabel", "?"))
+            val label = JBLabel(PeggyBundle.message("randomLabel", "?"))
 
             add(label)
-            add(JButton(MyBundle.message("shuffle")).apply {
+            add(JButton(PeggyBundle.message("shuffle")).apply {
                 addActionListener {
-                    label.text = MyBundle.message("randomLabel", service.getRandomNumber())
+                    label.text = PeggyBundle.message("randomLabel", service.getRandomNumber())
                 }
             })
         }

@@ -57,7 +57,6 @@ class PeggyCompletionContributor : CompletionContributor() {
 
                         else -> {
                            //do nothing
-                            val x = 0;
                         }
                     }
 
