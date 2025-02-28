@@ -9,6 +9,12 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 
 
 class HighlightAnnotator : Annotator {
+    companion object{
+        const val PEGGY_PREFIX_STR: String = "simple"
+        const val PEGGY_SEPARATOR_STR: String = ":"
+    }
+
+
     private val highlighter: PeggySyntaxHighlighter = PeggySyntaxHighlighter()
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

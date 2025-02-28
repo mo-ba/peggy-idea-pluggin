@@ -35,10 +35,10 @@ object PeggyUtil {
         )
         for (virtualFile in virtualFiles) {
             val peggyFile = PsiManager.getInstance(project).findFile(virtualFile!!) as PeggyFile? ?: continue
-            val ruleDefinitions: Array<out PeggyRuleDefinition> = PsiTreeUtil.getChildrenOfType(
+            val ruleDefinitions = PsiTreeUtil.findChildrenOfType(
                 peggyFile,
                 PeggyRuleDefinition::class.java
-            ) ?: arrayOf()
+            )
             for (ruleDefinition in ruleDefinitions) {
                 if (definition == ruleDefinition.definition) {
                     result.add(ruleDefinition)

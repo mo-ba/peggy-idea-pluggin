@@ -20,6 +20,7 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         return when (tokenType) {
             PeggyTypes.STRING -> STRING_KEYS
+            PeggyTypes.CHAR_CLASS -> CHAR_CLASS_KEYS
             PeggyTypes.COMMENT -> COMMENT_KEYS
             PeggyTypes.INTEGER -> INTEGER_KEYS
             PeggyTypes.IDENTIFIER_NAME -> IDENTIFIER_NAME_KEYS
@@ -37,6 +38,8 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
             TextAttributesKey.createTextAttributesKey("PEGGY_COMMENT", DefaultColors.LINE_COMMENT)
         val INTEGER =
             TextAttributesKey.createTextAttributesKey("PEGGY_INTEGER", DefaultColors.NUMBER)
+        val CHAR_CLASS =
+            TextAttributesKey.createTextAttributesKey("PEGGY_CHAR_CLASS", DefaultColors.STRING)
         val IDENTIFIER_NAME =
             TextAttributesKey.createTextAttributesKey("PEGGY_IDENTIFIER_NAME", DefaultColors.KEYWORD)
         val BAD_CHARACTER =
@@ -47,6 +50,7 @@ class PeggySyntaxHighlighter : SyntaxHighlighterBase() {
         private val IDENTIFIER_NAME_KEYS = arrayOf(IDENTIFIER_NAME)
         private val COMMENT_KEYS = arrayOf(COMMENT)
         private val STRING_KEYS = arrayOf(STRING)
+        private val CHAR_CLASS_KEYS = arrayOf(CHAR_CLASS)
         private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
     }
 }

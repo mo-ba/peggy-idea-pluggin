@@ -55,7 +55,15 @@
                 forClass="com.github.moba.peggyideaplugin.language.psi.PeggyCodeBlock"
                 implementationClass="com.github.moba.peggyideaplugin.language.PeggyCodeBlockElementManipulator"/>
 
+        <lang.findUsagesProvider
+                language="Peggy"
+                implementationClass="com.github.moba.peggyideaplugin.language.SimpleFindUsagesProvider"/>
+
 
     </extensions>
-
+    <extensions defaultExtensionNs="com.intellij">
+        <psi.referenceContributor
+                language="Peggy"
+                implementation="com.github.moba.peggyideaplugin.language.SimpleReferenceContributor"/>
+    </extensions>
 </idea-plugin>

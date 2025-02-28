@@ -6,7 +6,7 @@ import com.intellij.psi.PsiFileFactory
 
 
 class PeggyElementFactory {
-    fun createProperty(project: Project?, name: String?): PeggyRuleDefinition {
+    fun createRuleDefinition(project: Project?, name: String?): PeggyRuleDefinition {
         val file = createFile(project, name)
         return file.firstChild as PeggyRuleDefinition
     }

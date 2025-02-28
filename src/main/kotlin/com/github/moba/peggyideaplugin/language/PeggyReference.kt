@@ -10,11 +10,8 @@ import com.intellij.psi.*
 
 class PeggyReference(element: PsiElement, textRange: TextRange) :
     PsiReferenceBase<PsiElement?>(element, textRange), PsiPolyVariantReference {
-    private val key: String
+    private val key: String = element.text
 
-    init {
-        key = element.text
-    }
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val project = myElement!!.project
@@ -46,4 +43,6 @@ class PeggyReference(element: PsiElement, textRange: TextRange) :
         }
         return variants.toTypedArray()
     }
+
+
 }

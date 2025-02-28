@@ -32,7 +32,7 @@ public abstract class PeggyDefinitionImpl extends ASTWrapperPsiElement implement
         ASTNode idNode = getIdNode();
         if (idNode != null) {
             PeggyRuleDefinition property =
-                    new PeggyElementFactory().createProperty(this.getProject(), name);
+                    new PeggyElementFactory().createRuleDefinition(this.getProject(), name);
             ASTNode newIdNode = property.getFirstChild().getNode();
             this.getNode().replaceChild(idNode, newIdNode);
         }
